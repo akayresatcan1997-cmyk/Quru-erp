@@ -1,0 +1,2 @@
+# Quru-erp
+QURU ERP PROJE KODLARI
