@@ -1,0 +1,1902 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Q.U.R.U TV — HAREKET PROJE ISG</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   TEMA & DEĞIŞKENLER
+═══════════════════════════════════════════ */
+:root{
+  --red:#E8402A;--red2:#b02010;--navy:#1a1a2e;--navy2:#0f3460;
+  --cream:#f5c5b3;--yellow:#f5c200;
+  --bg:#f0eeea;--bg2:#f9f8f5;--bg3:#f5f3ef;
+  --border:#e0ddd6;--border2:#ccc;
+  --txt:#222;--txt2:#555;--txt3:#888;--card:#fff;
+  --f:'DM Sans',sans-serif;
+  --shadow:0 2px 12px rgba(0,0,0,.07);
+  --shadow-lg:0 8px 32px rgba(0,0,0,.12);
+}
+body.dark{
+  --bg:#0f0f14;--bg2:#161620;--bg3:#1e1e2a;
+  --border:#2a2a38;--border2:#333;
+  --txt:#e8e6e0;--txt2:#aaa;--txt3:#666;--card:#1a1a26;
+}
+
+/* ═══════════════════════════════════════════
+   RESET & LAYOUT
+═══════════════════════════════════════════ */
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--f);background:var(--bg);min-height:100vh;color:var(--txt);transition:background .3s,color .3s}
+
+/* RESPONSIVE LAYOUT — tam ekran */
+.app{width:100%;max-width:1400px;margin:0 auto;padding:12px 16px 90px}
+@media(max-width:768px){.app{padding:8px 8px 80px}}
+
+/* ═══════════════════════════════════════════
+   TICKER
+═══════════════════════════════════════════ */
+.ticker{background:var(--red);border-radius:10px;height:32px;display:flex;align-items:center;margin-bottom:10px;overflow:hidden}
+.live-badge{background:#900;color:#fff;font-size:10px;font-weight:700;padding:0 14px;height:100%;display:flex;align-items:center;gap:5px;flex-shrink:0;letter-spacing:.8px}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#fff;animation:blink 1s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.15}}
+.tick-track{flex:1;overflow:hidden}
+.tick-inner{display:flex;animation:tick 50s linear infinite;white-space:nowrap}
+@keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.tick-item{font-size:11px;color:#fff;padding:0 28px}
+
+/* ═══════════════════════════════════════════
+   CLOCK BAR
+═══════════════════════════════════════════ */
+.clock-bar{display:flex;align-items:center;justify-content:space-between;background:var(--navy);border-radius:12px;padding:10px 18px;margin-bottom:10px;flex-wrap:wrap;gap:8px}
+.clock-left{display:flex;align-items:center;gap:14px}
+.clock-time{font-size:26px;font-weight:700;color:#fff;font-family:monospace;letter-spacing:3px}
+.clock-date{font-size:12px;color:rgba(255,255,255,.45)}
+.clock-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ctag{font-size:10px;font-weight:500;padding:3px 10px;border-radius:20px}
+.ctag-r{background:rgba(232,64,42,.25);color:#f5a090;border:.5px solid rgba(232,64,42,.3)}
+.ctag-g{background:rgba(29,158,117,.2);color:#5DCAA5;border:.5px solid rgba(29,158,117,.3)}
+.dark-btn{background:rgba(255,255,255,.1);border:none;color:rgba(255,255,255,.7);width:28px;height:28px;border-radius:8px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.dark-btn:hover{background:rgba(255,255,255,.2)}
+.backup-btn{background:rgba(255,255,255,.1);border:none;color:rgba(255,255,255,.7);font-size:11px;padding:4px 10px;border-radius:8px;cursor:pointer;transition:background .15s;font-family:var(--f)}
+.backup-btn:hover{background:rgba(255,255,255,.2)}
+
+/* ═══════════════════════════════════════════
+   DESKTOP LAYOUT — iki sütun (büyük ekran)
+═══════════════════════════════════════════ */
+.desktop-layout{display:grid;grid-template-columns:220px 1fr;gap:12px;align-items:start}
+@media(max-width:900px){.desktop-layout{grid-template-columns:1fr}}
+
+/* SOL SIDEBAR NAV */
+.sidebar-nav{background:var(--card);border:.5px solid var(--border);border-radius:14px;padding:8px;position:sticky;top:8px;box-shadow:var(--shadow)}
+.sidebar-nav .nb{display:flex;align-items:center;gap:8px;width:100%;padding:9px 12px;border-radius:9px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--txt3);transition:all .15s;font-family:var(--f);text-align:left}
+.sidebar-nav .nb.on{background:var(--red);color:#fff}
+.sidebar-nav .nb:hover:not(.on){background:var(--bg3);color:var(--txt)}
+.sidebar-nav .nb-ico{font-size:15px;flex-shrink:0;width:20px;text-align:center}
+.sidebar-sep{height:.5px;background:var(--border);margin:6px 0}
+.sidebar-logo{padding:12px;text-align:center;margin-bottom:4px}
+.sidebar-logo-q{width:44px;height:44px;border-radius:11px;background:var(--cream);border:2.5px solid #2c2c2a;display:flex;align-items:center;justify-content:center;margin:0 auto 6px}
+
+/* MOBİL NAV (900px altı) */
+.mobile-nav{display:none;background:var(--card);border:.5px solid var(--border);border-radius:12px;padding:4px;margin-bottom:12px;overflow-x:auto;scrollbar-width:none;gap:2px;position:sticky;top:8px;z-index:100;box-shadow:var(--shadow)}
+.mobile-nav::-webkit-scrollbar{display:none}
+.mobile-nav .nb{flex-shrink:0;padding:7px 10px;border-radius:8px;font-size:11px;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--txt3);white-space:nowrap;transition:all .15s;font-family:var(--f)}
+.mobile-nav .nb.on{background:var(--red);color:#fff}
+.mobile-nav .nb:hover:not(.on){background:var(--bg3);color:var(--txt)}
+@media(max-width:900px){
+  .mobile-nav{display:flex}
+  .sidebar-nav{display:none}
+  .desktop-layout{grid-template-columns:1fr}
+}
+
+/* CONTENT AREA */
+.content{min-width:0}
+.sc{display:none}.sc.on{display:block}
+
+/* ═══════════════════════════════════════════
+   TYPOGRAPHY
+═══════════════════════════════════════════ */
+.lbl{font-size:11px;font-weight:600;color:var(--txt3);text-transform:uppercase;letter-spacing:.8px;margin:14px 0 8px}
+.lbl:first-child{margin-top:0}
+.sec-hd{display:flex;align-items:center;justify-content:space-between;margin:14px 0 8px}
+.sec-hd .lbl{margin:0}
+.card{background:var(--card);border:.5px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:8px}
+.bdg{display:inline-block;font-size:10px;font-weight:500;padding:2px 7px;border-radius:20px;margin-right:2px}
+.br{background:#FCEBEB;color:#A32D2D}.bb{background:#E6F1FB;color:#0C447C}.ba{background:#FAEEDA;color:#633806}.bg{background:#EAF3DE;color:#27500A}.bp{background:#EEEDFE;color:#3C3489}.bt{background:#E1F5EE;color:#085041}.bgr{background:#F1EFE8;color:#444441}
+
+/* ═══════════════════════════════════════════
+   BİLBOARD
+═══════════════════════════════════════════ */
+.billboard{position:relative;border-radius:14px;overflow:hidden;margin-bottom:12px;background:#0a0a14;width:100%;height:380px}
+@media(min-width:1200px){.billboard{height:460px}}
+@media(max-width:900px){.billboard{height:300px}}
+@media(max-width:600px){.billboard{height:220px}}
+@media(max-width:400px){.billboard{height:180px}}
+.bb-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:6px;padding:20px;text-align:center;cursor:pointer;transition:background .2s}
+.bb-empty:hover{background:rgba(255,255,255,.04)}
+.bb-empty-ico{font-size:36px}
+.bb-empty-lbl{font-size:14px;font-weight:600;color:rgba(255,255,255,.55)}
+.bb-empty-sub{font-size:12px;color:rgba(255,255,255,.3);max-width:320px}
+.bb-slides{width:100%;height:100%;position:relative}
+.bb-slide{position:absolute;inset:0;opacity:0;transition:opacity .9s ease;background:#0a0a14}
+.bb-slide.active{opacity:1}
+.bb-slide img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+.bb-slide.type-star{background:linear-gradient(135deg,#0a0a1e 0%,#1a1a3e 50%,#0a0a1e 100%);display:flex;align-items:center;justify-content:center}
+/* Overlay sadece fotoğraf slaytta aktif, yıldız slaytta değil */
+.bb-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(0,0,0,.45) 100%);pointer-events:none}
+.bb-caption{position:absolute;bottom:12px;left:14px;right:54px;color:#fff;font-size:13px;font-weight:500;text-shadow:0 1px 4px rgba(0,0,0,.7);line-height:1.4}
+.bb-dots{position:absolute;bottom:10px;right:12px;display:flex;gap:5px;align-items:center}
+.bb-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4);cursor:pointer;transition:all .25s;border:none;padding:0}
+.bb-dot.on{background:#fff;width:20px;border-radius:3px}
+.bb-controls{position:absolute;top:50%;transform:translateY(-50%);display:flex;justify-content:space-between;width:100%;padding:0 8px;pointer-events:none;opacity:0;transition:opacity .2s}
+.billboard:hover .bb-controls{opacity:1}
+.bb-btn{width:30px;height:30px;border-radius:50%;background:rgba(0,0,0,.5);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;pointer-events:all;font-size:16px;transition:background .15s}
+.bb-btn:hover{background:rgba(0,0,0,.8)}
+.bb-count{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.45);color:rgba(255,255,255,.6);font-size:10px;font-family:monospace;padding:2px 8px;border-radius:20px}
+/* YILDIZ KART */
+.star-slide{width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:16px}
+.star-card{background:linear-gradient(135deg,rgba(255,197,0,.08) 0%,rgba(232,64,42,.12) 100%);border:1.5px solid rgba(245,194,0,.3);border-radius:16px;padding:20px 24px;max-width:460px;width:100%;position:relative;box-shadow:0 0 30px rgba(245,194,0,.15),0 0 60px rgba(232,64,42,.08);animation:starGlow 3s ease-in-out infinite alternate}
+@keyframes starGlow{0%{box-shadow:0 0 20px rgba(245,194,0,.15),0 0 40px rgba(232,64,42,.06)}100%{box-shadow:0 0 40px rgba(245,194,0,.3),0 0 80px rgba(232,64,42,.15)}}
+.star-top{font-size:11px;font-weight:700;color:var(--yellow);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.star-main{display:flex;align-items:center;gap:16px;margin-bottom:12px}
+.star-avatar{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;flex-shrink:0;border:2px solid rgba(245,194,0,.4);box-shadow:0 0 16px rgba(245,194,0,.2)}
+.star-info{flex:1}
+.star-name{font-size:20px;font-weight:700;color:#fff;letter-spacing:-.3px}
+.star-puan{font-size:13px;color:var(--yellow);font-weight:600;margin-top:2px;font-family:monospace}
+.star-rozetler{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}
+.star-rozet{font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.85);border:.5px solid rgba(255,255,255,.15)}
+/* ROZET GLOW */
+.rozet-glow{background:var(--bg3);border-radius:10px;padding:11px;text-align:center;border:.5px solid var(--border);position:relative;overflow:hidden}
+.rozet-glow.earned{border-color:var(--yellow);box-shadow:0 0 12px rgba(245,194,0,.2)}
+.rozet-glow.earned::after{content:'✓';position:absolute;top:4px;right:6px;font-size:10px;color:var(--yellow);font-weight:700}
+
+/* ═══════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════ */
+.hero{background:var(--navy);border-radius:14px;padding:20px 22px;margin-bottom:12px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;right:-40px;top:-40px;width:130px;height:130px;border-radius:50%;background:var(--red);opacity:.12;pointer-events:none}
+.hero::after{content:'';position:absolute;left:-30px;bottom:-30px;width:100px;height:100px;border-radius:50%;background:var(--yellow);opacity:.08;pointer-events:none}
+.h-row{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.qlogo{width:50px;height:50px;border-radius:12px;background:var(--cream);border:2.5px solid #2c2c2a;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.h-title{color:#fff;font-size:18px;font-weight:700;letter-spacing:-.3px}
+.h-sub{color:rgba(255,255,255,.45);font-size:11px;margin-top:3px}
+.hstats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.hs{background:rgba(255,255,255,.07);border-radius:9px;padding:9px 6px;text-align:center;border:.5px solid rgba(255,255,255,.08)}
+.hs-n{font-size:20px;font-weight:700;color:#fff;font-family:monospace}
+.hs-l{font-size:10px;color:rgba(255,255,255,.4);margin-top:2px}
+
+/* SOZ */
+.soz-box{background:linear-gradient(135deg,var(--navy2),#1a2a4e);border-radius:12px;padding:14px 16px;margin-bottom:10px;border-left:3px solid var(--red);position:relative;overflow:hidden}
+.soz-box::after{content:'"';position:absolute;right:10px;top:-4px;font-size:68px;color:rgba(255,255,255,.05);font-family:Georgia,serif;pointer-events:none}
+.soz-lbl{font-size:10px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px;font-weight:500}
+.soz-txt{font-size:13px;color:#fff;font-weight:500;line-height:1.75;font-style:italic}
+.soz-src{font-size:10px;color:rgba(255,255,255,.3);margin-top:6px}
+
+/* ═══════════════════════════════════════════
+   DUYURU
+═══════════════════════════════════════════ */
+.duyuru-card{border-radius:10px;padding:11px 13px;margin-bottom:7px}
+.duyuru-card.normal{background:var(--bg3);border-left:3px solid #378ADD}
+.duyuru-card.onemli{background:#FAEEDA;border-left:3px solid #BA7517}
+.duyuru-card.acil{background:#FCEBEB;border-left:3px solid var(--red)}
+.duyuru-hd{display:flex;align-items:center;gap:7px;margin-bottom:5px}
+.duyuru-time{font-size:10px;color:var(--txt3);font-family:monospace;margin-left:auto}
+.duyuru-txt{font-size:12px;color:var(--txt);line-height:1.65}
+
+/* ═══════════════════════════════════════════
+   VİDEO
+═══════════════════════════════════════════ */
+.vg{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;margin-bottom:10px}
+@media(max-width:480px){.vg{grid-template-columns:repeat(2,1fr)}}
+.vc{border-radius:12px;border:.5px solid var(--border);overflow:hidden;cursor:pointer;transition:all .2s;background:var(--card)}
+.vc:hover{border-color:var(--red);transform:translateY(-2px);box-shadow:0 4px 16px rgba(232,64,42,.12)}
+.vt{height:80px;display:flex;align-items:center;justify-content:center;position:relative}
+.vt-grad{position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(0,0,0,.5) 100%)}
+.vplay{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;position:relative;z-index:1;transition:transform .2s}
+.vc:hover .vplay{transform:scale(1.15)}
+.vnew{position:absolute;top:6px;right:6px;font-size:9px;font-weight:700;padding:2px 6px;border-radius:8px;z-index:2}
+.vdur{position:absolute;bottom:5px;right:6px;background:rgba(0,0,0,.8);color:#fff;font-size:9px;padding:2px 5px;border-radius:5px;font-family:monospace;z-index:2}
+.vlink-badge{position:absolute;bottom:5px;left:6px;background:rgba(255,0,0,.85);color:#fff;font-size:8px;font-weight:700;padding:2px 6px;border-radius:5px;z-index:2}
+.vi{padding:9px 11px}
+.vi-t{font-size:11px;font-weight:600;color:var(--txt);margin-bottom:3px;line-height:1.4}
+.vi-m{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--txt3)}
+
+/* ═══════════════════════════════════════════
+   OYUN KARTLARI
+═══════════════════════════════════════════ */
+.gg{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-bottom:10px}
+@media(max-width:480px){.gg{grid-template-columns:repeat(2,1fr)}}
+.gc{border-radius:12px;border:.5px solid var(--border);padding:14px;cursor:pointer;transition:all .2s;background:var(--card);position:relative;overflow:hidden}
+.gc:hover{border-color:var(--red);transform:translateY(-2px);box-shadow:0 4px 14px rgba(0,0,0,.07)}
+.gc-acc{height:3px;border-radius:3px;margin-bottom:10px}
+.gc-ico{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:10px;font-size:22px}
+.gc-t{font-size:13px;font-weight:600;color:var(--txt);margin-bottom:3px}
+.gc-d{font-size:11px;color:var(--txt2);line-height:1.5;margin-bottom:8px}
+.gc-ft{display:flex;align-items:center;justify-content:space-between}
+.gc-pt{font-size:11px;font-weight:500;color:var(--txt3);font-family:monospace}
+.gc-dif{font-size:10px;font-weight:500;padding:3px 8px;border-radius:20px}
+
+/* ═══════════════════════════════════════════
+   EKİPMAN
+═══════════════════════════════════════════ */
+.eq-item{border-radius:12px;border:.5px solid var(--border);margin-bottom:7px;overflow:hidden;background:var(--card)}
+.eq-hd{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;transition:background .15s}
+.eq-hd:hover{background:var(--bg3)}
+.eq-dot-wrap{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.eq-nm{font-size:13px;font-weight:600;color:var(--txt);flex:1}
+.eq-arrow{color:var(--txt3);font-size:14px;transition:transform .2s}
+.eq-detail{display:none;padding:14px;background:var(--bg3);border-top:.5px solid var(--border)}
+.eq-detail.open{display:block}
+.eq-sec{font-size:10px;font-weight:700;color:var(--txt3);text-transform:uppercase;letter-spacing:.8px;margin:10px 0 5px}
+.eq-sec:first-child{margin-top:0}
+.eq-p{font-size:12px;color:var(--txt);line-height:1.75}
+.eq-warn{background:#FCEBEB;border-radius:9px;padding:10px 12px;font-size:12px;color:#A32D2D;line-height:1.7;margin-top:4px}
+.eq-ok{background:#EAF3DE;border-radius:9px;padding:10px 12px;font-size:12px;color:#27500A;line-height:1.7;margin-top:4px}
+.tbl{width:100%;border-collapse:collapse;font-size:11px;margin-top:6px}
+.tbl th{text-align:left;padding:6px 9px;background:var(--card);color:var(--txt3);font-weight:600;border-bottom:.5px solid var(--border)}
+.tbl td{padding:5px 9px;border-bottom:.5px solid var(--border);color:var(--txt)}
+.tbl tr:last-child td{border-bottom:none}
+
+/* ═══════════════════════════════════════════
+   ISG TAKVİM
+═══════════════════════════════════════════ */
+.takvim-item{display:flex;align-items:center;gap:10px;padding:10px 13px;border-radius:10px;border:.5px solid var(--border);margin-bottom:6px;background:var(--card)}
+.takvim-tarih{background:var(--red);color:#fff;border-radius:9px;padding:6px 10px;text-align:center;flex-shrink:0;min-width:48px}
+.takvim-gun{font-size:18px;font-weight:700;line-height:1}
+.takvim-ay{font-size:9px;font-weight:600;opacity:.85;text-transform:uppercase}
+.takvim-bilgi{flex:1}
+.takvim-baslik{font-size:13px;font-weight:600;color:var(--txt)}
+.takvim-tur{font-size:11px;color:var(--txt3);margin-top:2px}
+.takvim-tur-badge{font-size:10px;font-weight:500;padding:2px 8px;border-radius:20px}
+
+/* ═══════════════════════════════════════════
+   BAKIM TAKİP
+═══════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════
+   PUAN
+═══════════════════════════════════════════ */
+.lb-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:.5px solid var(--border)}
+.lb-row:last-child{border-bottom:none}
+.lb-rk{width:22px;text-align:center;font-size:12px;color:var(--txt3);flex-shrink:0}
+.lb-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.lb-nm{flex:1;font-size:12px;font-weight:500;color:var(--txt)}
+.lb-not{font-size:10px;color:var(--txt3);margin-top:1px}
+.lb-bw{width:72px;height:4px;background:var(--bg2);border-radius:2px;overflow:hidden}
+.lb-bar{height:100%;border-radius:2px}
+.lb-pt{font-size:13px;font-weight:700;color:var(--txt);min-width:46px;text-align:right;font-family:monospace}
+.lb-actions{display:flex;gap:4px}
+
+/* ═══════════════════════════════════════════
+   QUİZ / SENARYO
+═══════════════════════════════════════════ */
+.qprog{display:flex;align-items:center;gap:7px;margin-bottom:12px}
+.qbw{flex:1;height:4px;background:var(--bg2);border-radius:2px;overflow:hidden}
+.qbar{height:100%;background:var(--red);border-radius:2px;transition:width .4s}
+.qbox{background:var(--bg3);border-radius:12px;padding:16px;margin-bottom:10px}
+.qq{font-size:13px;font-weight:500;color:var(--txt);margin-bottom:12px;line-height:1.65}
+.qopts{display:flex;flex-direction:column;gap:6px}
+.qo{padding:10px 13px;border-radius:10px;border:.5px solid var(--border2);font-size:12px;color:var(--txt);cursor:pointer;background:var(--card);transition:all .15s;text-align:left;font-family:var(--f)}
+.qo:hover:not(:disabled){border-color:var(--red);background:#FCEBEB;color:#A32D2D}
+.qo.ok{background:#EAF3DE;border-color:#97C459;color:#27500A}
+.qo.no{background:#FCEBEB;border-color:#F09595;color:#A32D2D}
+.qres{display:none;padding:10px 12px;border-radius:10px;margin-top:8px;font-size:12px;line-height:1.6}
+.sno{padding:10px 13px;border-radius:10px;border:.5px solid var(--border2);font-size:12px;color:var(--txt);cursor:pointer;background:var(--card);transition:all .15s;text-align:left;width:100%;margin-bottom:6px;display:block;font-family:var(--f)}
+.sno:hover:not(:disabled){border-color:var(--red);background:#FCEBEB;color:#A32D2D}
+.sno.ok{background:#EAF3DE;border-color:#97C459;color:#27500A}
+.sno.no{background:#FCEBEB;border-color:#F09595;color:#A32D2D}
+.sn-res{display:none;padding:10px;border-radius:10px;margin-top:8px;font-size:12px;line-height:1.6}
+.quru-bbl{display:flex;align-items:flex-start;gap:8px;margin-top:8px}
+.quru-face{width:30px;height:30px;border-radius:8px;background:var(--cream);border:1.5px solid #2c2c2a;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.quru-txt{background:var(--navy);color:rgba(255,255,255,.88);font-size:11px;border-radius:9px;border-top-left-radius:2px;padding:8px 10px;line-height:1.6;flex:1}
+
+/* ═══════════════════════════════════════════
+   TABU
+═══════════════════════════════════════════ */
+.tabu-card{border-radius:14px;padding:22px 18px;text-align:center;margin-bottom:10px;position:relative;min-height:195px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--bg3);border:2px solid var(--red)}
+.tabu-kelime{font-size:26px;font-weight:700;color:var(--txt);margin-bottom:14px;letter-spacing:-.3px}
+.tabu-ylbl{font-size:10px;font-weight:600;color:var(--txt3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
+.tabu-yasak{display:flex;flex-wrap:wrap;justify-content:center;gap:5px}
+.tabu-yw{background:#FCEBEB;color:#A32D2D;font-size:11px;font-weight:500;padding:4px 11px;border-radius:20px;border:1px solid #F09595;text-decoration:line-through}
+.tabu-timer{position:absolute;top:12px;right:14px;font-size:22px;font-weight:700;color:var(--txt);font-family:monospace}
+.tabu-timer.red{color:var(--red);animation:blink .5s ease-in-out infinite}
+.tabu-skor{position:absolute;top:14px;left:14px;font-size:11px;font-weight:500;color:var(--txt3);font-family:monospace}
+.tabu-btns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:8px}
+.t-btn{padding:12px 8px;border-radius:10px;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all .15s;font-family:var(--f)}
+.t-d{background:#EAF3DE;color:#27500A}.t-d:hover{background:#C0DD97}
+.t-p{background:#F1EFE8;color:#444441}.t-p:hover{background:#D3D1C7}
+.t-y{background:#FCEBEB;color:#A32D2D}.t-y:hover{background:#F7C1C1}
+
+/* ═══════════════════════════════════════════
+   ORYANTASyon
+═══════════════════════════════════════════ */
+.ory-header{background:linear-gradient(135deg,var(--navy2),var(--navy));border-radius:12px;padding:16px 18px;margin-bottom:12px;display:flex;align-items:center;gap:12px}
+.ory-icon{width:44px;height:44px;border-radius:11px;background:var(--red);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ory-dots{display:flex;gap:3px;margin-bottom:12px}
+.ory-dot{flex:1;height:3px;border-radius:2px;background:var(--border);transition:all .3s}
+.ory-dot.done{background:var(--red)}.ory-dot.active{background:var(--red);opacity:.5}
+.ory-step{border-radius:12px;border:.5px solid var(--border);overflow:hidden;background:var(--card)}
+.ory-hd{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--bg3)}
+.ory-num{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0}
+.ory-body{padding:14px}
+.ory-player{background:var(--navy);border-radius:10px;padding:12px 14px;margin-bottom:10px}
+.ory-play-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.ory-play-btn{width:36px;height:36px;border-radius:50%;background:var(--red);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s}
+.ory-play-btn:hover{background:var(--red2)}
+.ory-prog{height:3px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden;margin-bottom:4px}
+.ory-prog-bar{height:100%;background:var(--red);border-radius:2px;transition:width .2s}
+.ory-time{display:flex;justify-content:space-between;font-size:10px;color:rgba(255,255,255,.35);font-family:monospace}
+.ory-metin{font-size:12px;color:var(--txt);line-height:1.8;background:var(--bg3);border-radius:9px;padding:12px;white-space:pre-line}
+
+/* ═══════════════════════════════════════════
+   PANEL / FORM
+═══════════════════════════════════════════ */
+.upload-drop{border:2px dashed var(--border2);border-radius:12px;padding:22px;text-align:center;cursor:pointer;transition:all .15s;margin-bottom:8px}
+.upload-drop:hover,.upload-drop.drag{border-color:var(--red);background:var(--bg3)}
+.upload-drop.has-file{border-color:#639922;background:#EAF3DE}
+.udi{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;margin:0 auto 8px}
+.fsec{background:var(--bg3);border-radius:12px;padding:14px;margin-bottom:8px;border:.5px solid var(--border)}
+.fl{font-size:11px;font-weight:500;color:var(--txt3);margin-bottom:4px;display:block}
+.fi{width:100%;padding:8px 10px;border-radius:9px;border:.5px solid var(--border2);background:var(--card);font-size:12px;color:var(--txt);margin-bottom:8px;font-family:var(--f)}
+.fi:focus{outline:none;border-color:var(--red)}
+select.fi{cursor:pointer}
+.vli{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:9px;border:.5px solid var(--border);margin-bottom:5px;background:var(--card)}
+.vli-th{width:46px;height:32px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.vli-info{flex:1;min-width:0}
+.vli-t{font-size:12px;font-weight:600;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vli-m{font-size:10px;color:var(--txt3);margin-top:1px;font-family:monospace}
+.del-btn{padding:3px 9px;border-radius:7px;font-size:10px;border:.5px solid var(--border);background:transparent;cursor:pointer;color:var(--txt3);flex-shrink:0;font-family:var(--f)}
+.del-btn:hover{background:#FCEBEB;color:#A32D2D;border-color:#F09595}
+.edit-btn{padding:3px 9px;border-radius:7px;font-size:10px;border:.5px solid var(--border);background:transparent;cursor:pointer;color:var(--txt3);flex-shrink:0;font-family:var(--f)}
+.edit-btn:hover{background:#E6F1FB;color:#0C447C;border-color:#A8C4E0}
+.add-btn{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:500;padding:4px 10px;border-radius:8px;border:1px dashed var(--border2);background:transparent;color:var(--txt3);cursor:pointer;transition:all .15s;font-family:var(--f)}
+.add-btn:hover{border-color:var(--red);color:var(--red);background:#FCEBEB}
+.btn{padding:10px 14px;border-radius:10px;font-size:13px;font-weight:500;cursor:pointer;border:.5px solid var(--border2);background:var(--card);color:var(--txt);transition:all .15s;width:100%;margin-bottom:7px;text-align:center;font-family:var(--f)}
+.btn:hover{background:var(--bg3)}
+.btn.dk{background:var(--navy);color:#fff;border-color:var(--navy)}.btn.dk:hover{background:var(--navy2)}
+.btn.rd{background:var(--red);color:#fff;border-color:var(--red)}.btn.rd:hover{background:var(--red2)}
+.btn.gr{background:#639922;color:#fff;border-color:#639922}.btn.gr:hover{background:#4d7518}
+.btn.sm{padding:7px 12px;font-size:12px;margin-bottom:0;width:auto;display:inline-block}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.back{background:none;border:.5px solid var(--border2);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:12px;color:var(--txt3);margin-right:8px;font-family:var(--f)}
+.rozet{background:var(--bg3);border-radius:10px;padding:11px;text-align:center;border:.5px solid var(--border)}
+.save-ok{display:none;font-size:11px;color:#27500A;background:#EAF3DE;padding:5px 10px;border-radius:8px;margin-top:6px;text-align:center}
+
+/* ═══════════════════════════════════════════
+   MODALLER
+═══════════════════════════════════════════ */
+.modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.82);z-index:9999;align-items:center;justify-content:center;padding:16px}
+.modal-overlay.open{display:flex}
+.modal-box{background:var(--card);border-radius:16px;width:100%;max-width:640px;overflow:hidden;animation:mIn .2s ease}
+@keyframes mIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+.modal-close{position:absolute;top:10px;right:10px;width:30px;height:30px;border-radius:50%;background:rgba(0,0,0,.6);border:none;color:#fff;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;z-index:10}
+.modal-close:hover{background:rgba(0,0,0,.85)}
+.modal-video-area{background:#000;aspect-ratio:16/9;position:relative;display:flex;align-items:center;justify-content:center}
+iframe.yt-frame{width:100%;height:100%;border:none;display:none}
+iframe.yt-frame.visible{display:block}
+video.local-player{width:100%;height:100%;object-fit:contain;display:none}
+video.local-player.visible{display:block}
+.modal-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;width:100%;height:100%;padding:20px}
+.modal-body{padding:14px 16px}
+.modal-title{font-size:15px;font-weight:700;color:var(--txt);margin-bottom:4px}
+.modal-meta{font-size:12px;color:var(--txt3);margin-bottom:12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.oyun-modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.82);z-index:9998;align-items:flex-start;justify-content:center;padding:16px;overflow-y:auto}
+.oyun-modal-overlay.open{display:flex}
+.oyun-modal-box{background:var(--card);border-radius:16px;width:100%;max-width:560px;margin-top:20px;overflow:hidden;animation:mIn .2s ease}
+.oyun-modal-hd{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:var(--bg3);border-bottom:.5px solid var(--border)}
+.oyun-modal-title{font-size:15px;font-weight:700;color:var(--txt)}
+.oyun-modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--txt3);line-height:1}
+.oyun-modal-body{padding:16px}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="live-badge"><div class="live-dot"></div>CANLI</div>
+  <div class="tick-track"><div class="tick-inner">
+    <span class="tick-item">📺 Q.U.R.U TV — HAREKET PROJE ISG Eğitim Platformu</span>
+    <span class="tick-item">⛑️ Ayın ISG Sözü yayında — Duyurular sekmesinde</span>
+    <span class="tick-item">🏆 En güncel sıralama — Puanlar sekmesinde</span>
+    <span class="tick-item">🎬 Videolar sekmesinden eğitimlere ulaş</span>
+    <span class="tick-item">🎮 Q.U.R.U ile Anlat Bakalım — Oyunlar sekmesinde</span>
+    <span class="tick-item">📅 ISG Takvimi — yaklaşan muayene ve tatbikatlar</span>
+    <span class="tick-item">🔧 Ekipman bakım takibi aktif — Ekipmanlar sekmesi</span>
+    <span class="tick-item">📺 Q.U.R.U TV — HAREKET PROJE ISG Eğitim Platformu</span>
+    <span class="tick-item">⛑️ Ayın ISG Sözü yayında — Duyurular sekmesinde</span>
+    <span class="tick-item">🏆 En güncel sıralama — Puanlar sekmesinde</span>
+    <span class="tick-item">🎬 Videolar sekmesinden eğitimlere ulaş</span>
+    <span class="tick-item">🎮 Q.U.R.U ile Anlat Bakalım — Oyunlar sekmesinde</span>
+    <span class="tick-item">📅 ISG Takvimi — yaklaşan muayene ve tatbikatlar</span>
+    <span class="tick-item">🔧 Ekipman bakım takibi aktif — Ekipmanlar sekmesi</span>
+  </div></div>
+</div>
+
+<!-- CLOCK BAR -->
+<div class="clock-bar">
+  <div class="clock-left">
+    <div>
+      <div class="clock-time" id="clk">--:--:--</div>
+      <div class="clock-date" id="clkd">Yükleniyor...</div>
+    </div>
+  </div>
+  <div class="clock-right">
+    <span class="ctag ctag-r">SOCAR Sahası</span>
+    <span class="ctag ctag-g">HAREKET PROJE</span>
+    <button class="dark-btn" onclick="toggleDark()" title="Karanlık Mod">🌙</button>
+    <button class="backup-btn" onclick="yedegiIndir()" title="Tüm verileri yedekle">💾 Yedek Al</button>
+    <button class="backup-btn" onclick="document.getElementById('restore-inp').click()" title="Yedeği geri yükle" style="background:rgba(255,255,255,.07)">📂 Yükle</button>
+    <input type="file" id="restore-inp" accept=".json" style="display:none" onchange="yedegiYukle(this)">
+  </div>
+</div>
+
+<!-- MOBİL NAV -->
+<div class="mobile-nav">
+  <button class="nb on" onclick="go('ana')">📺 Ana</button>
+  <button class="nb" onclick="go('duyurular')">📢 Duyurular</button>
+  <button class="nb" onclick="go('videolar')">🎬 Videolar</button>
+  <button class="nb" onclick="go('oryantasyon')">🎧 Oryantasyon</button>
+  <button class="nb" onclick="go('oyunlar')">🎮 Oyunlar</button>
+  <button class="nb" onclick="go('quiz')">❓ Quiz</button>
+  <button class="nb" onclick="go('senaryo')">⚡ Senaryo</button>
+  <button class="nb" onclick="go('tabu')">🃏 Anlat Bakalım</button>
+  <button class="nb" onclick="go('ekipmanlar')">🔧 Ekipmanlar</button>
+  <button class="nb" onclick="go('kutuphane')">📚 Kütüphane</button>
+  <button class="nb" onclick="go('aci')">📐 Açı Analizi</button>
+  <button class="nb" onclick="go('takvim')">📅 Takvim</button>
+  <button class="nb" onclick="go('puan')">🏆 Puanlar</button>
+  <button class="nb" onclick="go('panel')">⚙️ Yönetim</button>
+</div>
+
+<!-- DESKTOP LAYOUT -->
+<div class="desktop-layout">
+
+  <!-- SOL SİDEBAR -->
+  <nav class="sidebar-nav">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-q"><svg width="26" height="26" viewBox="0 0 32 32"><circle cx="16" cy="18" r="9" fill="#d4845a" stroke="#2c2c2a" stroke-width="1.2"/><ellipse cx="16" cy="10" rx="10" ry="6" fill="#e8402a" stroke="#2c2c2a" stroke-width="1.2"/><rect x="7" y="9" width="18" height="3" rx="1.5" fill="#c0321a" stroke="#2c2c2a" stroke-width=".8"/><circle cx="12.5" cy="19" r="1.2" fill="#2c2c2a"/><circle cx="19.5" cy="19" r="1.2" fill="#2c2c2a"/><path d="M13 22.5 Q16 24.5 19 22.5" stroke="#2c2c2a" stroke-width="1" fill="none" stroke-linecap="round"/></svg></div>
+      <div style="font-size:13px;font-weight:700;color:var(--txt)">Q.U.R.U TV</div>
+      <div style="font-size:10px;color:var(--txt3);margin-top:2px">HAREKET PROJE</div>
+    </div>
+    <div class="sidebar-sep"></div>
+    <button class="nb on" onclick="go('ana')"><span class="nb-ico">📺</span>Ana Sayfa</button>
+    <button class="nb" onclick="go('duyurular')"><span class="nb-ico">📢</span>Duyurular</button>
+    <button class="nb" onclick="go('videolar')"><span class="nb-ico">🎬</span>Videolar</button>
+    <button class="nb" onclick="go('oryantasyon')"><span class="nb-ico">🎧</span>Oryantasyon</button>
+    <div class="sidebar-sep"></div>
+    <button class="nb" onclick="go('oyunlar')"><span class="nb-ico">🎮</span>Oyunlar</button>
+    <button class="nb" onclick="go('quiz')"><span class="nb-ico">❓</span>Quiz</button>
+    <button class="nb" onclick="go('senaryo')"><span class="nb-ico">⚡</span>Kaza Senaryosu</button>
+    <button class="nb" onclick="go('tabu')"><span class="nb-ico">🃏</span>Anlat Bakalım</button>
+    <button class="nb" onclick="go('kutuphane')"><span class="nb-ico">📚</span>ISG Kütüphanesi</button>
+    <button class="nb" onclick="go('aci')"><span class="nb-ico">📐</span>Açı Analizi</button>
+    <div class="sidebar-sep"></div>
+    <button class="nb" onclick="go('ekipmanlar')"><span class="nb-ico">🔧</span>Ekipmanlar</button>
+    <button class="nb" onclick="go('takvim')"><span class="nb-ico">📅</span>ISG Takvimi</button>
+    <button class="nb" onclick="go('puan')"><span class="nb-ico">🏆</span>Puanlar</button>
+    <div class="sidebar-sep"></div>
+    <button class="nb" onclick="go('panel')"><span class="nb-ico">⚙️</span>Yönetim Paneli</button>
+  </nav>
+
+  <!-- İÇERİK ALANI -->
+  <div class="content">
+
+    <!-- ══ ANA SAYFA ══ -->
+    <div class="sc on" id="s-ana">
+      <!-- BİLBOARD -->
+      <div class="billboard" id="billboard">
+        <div class="bb-empty" id="bb-empty" onclick="go('panel')">
+          <div class="bb-empty-ico">🖼️</div>
+          <div class="bb-empty-lbl">Billboard Boş</div>
+          <div class="bb-empty-sub">Yönetim panelinden şirket içi görseller ekle — animasyonlu slayt olarak yayınlanır</div>
+        </div>
+        <div class="bb-slides" id="bb-slides" style="display:none"></div>
+        <div class="bb-overlay" id="bb-overlay" style="display:none"></div>
+        <div class="bb-caption" id="bb-caption" style="display:none"></div>
+        <div class="bb-dots" id="bb-dots" style="display:none"></div>
+        <div class="bb-controls" id="bb-controls" style="display:none">
+          <button class="bb-btn" onclick="bbPrev()">‹</button>
+          <button class="bb-btn" onclick="bbNext()">›</button>
+        </div>
+        <div class="bb-count" id="bb-count" style="display:none"></div>
+      </div>
+
+      <div class="hero">
+        <div class="h-row">
+          <div class="qlogo"><svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="18" r="9" fill="#d4845a" stroke="#2c2c2a" stroke-width="1.2"/><ellipse cx="16" cy="10" rx="10" ry="6" fill="#e8402a" stroke="#2c2c2a" stroke-width="1.2"/><rect x="7" y="9" width="18" height="3" rx="1.5" fill="#c0321a" stroke="#2c2c2a" stroke-width=".8"/><circle cx="12.5" cy="19" r="1.2" fill="#2c2c2a"/><circle cx="19.5" cy="19" r="1.2" fill="#2c2c2a"/><path d="M13 22.5 Q16 24.5 19 22.5" stroke="#2c2c2a" stroke-width="1" fill="none" stroke-linecap="round"/></svg></div>
+          <div><div class="h-title">Q.U.R.U TV</div><div class="h-sub">HAREKET PROJE · SOCAR Sahası · ISG Eğitim Kanalı</div></div>
+        </div>
+        <div class="hstats">
+          <div class="hs"><div class="hs-n" id="vc-n">0</div><div class="hs-l">Video</div></div>
+          <div class="hs"><div class="hs-n">7</div><div class="hs-l">Oyun</div></div>
+          <div class="hs"><div class="hs-n">10</div><div class="hs-l">Soru Seti</div></div>
+          <div class="hs"><div class="hs-n">9</div><div class="hs-l">Ekipman</div></div>
+        </div>
+      </div>
+      <div class="soz-box"><div class="soz-lbl">🗓 Ayın ISG Sözü</div><div class="soz-txt" id="ana-soz">"Güvenli davranış alışkanlık olduğunda, kaza ihtimal dışı kalır."</div><div class="soz-src">— Q.U.R.U · HAREKET PROJE ISG</div></div>
+      <div class="lbl">Son Duyuru</div>
+      <div id="ana-duyuru"><div style="background:var(--bg3);border-radius:10px;padding:12px;font-size:12px;color:var(--txt3)">Henüz duyuru yok. Yönetim panelinden ekleyebilirsiniz.</div></div>
+      <div class="lbl" style="margin-top:12px">Bu Hafta Öne Çıkanlar</div>
+      <div class="vg">
+        <div class="vc" onclick="openVideo(0)"><div class="vt" style="background:linear-gradient(135deg,#8b1a1a,#c02020)"><div class="vt-grad"></div><div class="vplay"><svg width="9" height="9" viewBox="0 0 9 9"><path d="M1 1L8 4.5L1 8Z" fill="#e8402a"/></svg></div><div class="vnew" style="background:var(--red);color:#fff">YENİ</div><div class="vdur">4:30</div></div><div class="vi"><div class="vi-t">Sapan Seçimi — 3 Ölümcül Hata</div><div class="vi-m"><span class="bdg br">Kaldırma</span></div></div></div>
+        <div class="vc" onclick="go('oryantasyon')"><div class="vt" style="background:linear-gradient(135deg,#0f3460,#1a4a7e)"><div class="vt-grad"></div><div class="vplay"><svg width="9" height="9" viewBox="0 0 9 9"><path d="M1 1L8 4.5L1 8Z" fill="#85B7EB"/></svg></div><div class="vnew" style="background:var(--navy);color:#85B7EB">ORY.</div></div><div class="vi"><div class="vi-t">Yeni Personel Oryantasyonu</div><div class="vi-m"><span class="bdg bb">Sesli</span></div></div></div>
+      </div>
+      <div class="g3"><button class="btn dk" onclick="go('duyurular')">📢 Duyurular</button><button class="btn" onclick="go('quiz')">❓ Quiz Oyna</button><button class="btn" onclick="go('ekipmanlar')">🔧 Ekipmanlar</button></div>
+    </div>
+
+    <!-- ══ DUYURULAR ══ -->
+    <div class="sc" id="s-duyurular">
+      <div class="sec-hd"><div class="lbl">Aktif Duyurular</div><button class="add-btn" onclick="go('panel')">+ Yeni Duyuru</button></div>
+      <div id="duyuru-list"><div style="background:var(--bg3);border-radius:10px;padding:20px;text-align:center;color:var(--txt3);font-size:13px">Henüz duyuru yok.</div></div>
+      <div class="lbl" style="margin-top:14px">Ayın ISG Sözü</div>
+      <div class="soz-box"><div class="soz-lbl">🗓 Güncel</div><div class="soz-txt" id="soz-disp">"Güvenli davranış alışkanlık olduğunda, kaza ihtimal dışı kalır."</div><div class="soz-src">— Q.U.R.U · HAREKET PROJE ISG</div></div>
+    </div>
+
+    <!-- ══ VİDEOLAR ══ -->
+    <div class="sc" id="s-videolar">
+      <div style="background:var(--bg3);border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:var(--txt3);display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1"/><path d="M7 4v3l2 2" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>Video kartına tıkla → açılır. YouTube linki veya dosya ile izleyebilirsin.</div>
+      <div id="video-sections"></div>
+    </div>
+
+    <!-- ══ ORYANTASyon ══ -->
+    <div class="sc" id="s-oryantasyon">
+      <div class="ory-header"><div class="ory-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3C7 3 5 5.2 5 8v3c0 2.8 2.2 5 5 5s5-2.2 5-5V8c0-2.8-2.2-5-5-5z" stroke="white" stroke-width="1.3"/><path d="M2 9v2.5A7 7 0 0018 11.5V9" stroke="white" stroke-width="1.3" stroke-linecap="round"/><path d="M10 18v2" stroke="white" stroke-width="1.3" stroke-linecap="round"/></svg></div><div><div style="color:#fff;font-size:14px;font-weight:700">Hızlandırılmış ISG Oryantasyonu</div><div style="color:rgba(255,255,255,.5);font-size:11px;margin-top:2px">Kulaklıklarını tak · Q.U.R.U anlatıyor · ~20 dakika</div></div></div>
+      <div class="ory-dots" id="ory-dots"></div>
+      <div id="ory-wrap"></div>
+    </div>
+
+    <!-- ══ OYUNLAR ══ -->
+    <div class="sc" id="s-oyunlar">
+      <div class="lbl">Tüm Oyunlar</div>
+      <div class="gg" id="game-grid"></div>
+    </div>
+
+    <!-- ══ QUİZ ══ -->
+    <div class="sc" id="s-quiz">
+      <div style="display:flex;align-items:center;margin-bottom:12px"><button class="back" onclick="go('oyunlar')">← Geri</button><div style="font-size:14px;font-weight:700;flex:1;color:var(--txt)">ISG Video Quizi</div><span id="qscore" style="font-size:13px;font-weight:700;font-family:monospace;color:var(--txt)">0 puan</span></div>
+      <div class="qprog"><div class="qbw"><div class="qbar" id="qbar" style="width:0%"></div></div><span id="qtxt" style="font-size:11px;color:var(--txt3);font-family:monospace;white-space:nowrap">1/10</span></div>
+      <div class="qbox"><div class="qq" id="qq"></div><div class="qopts" id="qopts"></div><div class="qres" id="qres"></div></div>
+    </div>
+
+    <!-- ══ SENARYO ══ -->
+    <div class="sc" id="s-senaryo">
+      <div style="display:flex;align-items:center;margin-bottom:12px"><button class="back" onclick="go('oyunlar')">← Geri</button><div style="font-size:14px;font-weight:700;flex:1;color:var(--txt)">Kaza Senaryosu</div><span id="sn-score" style="font-size:12px;font-weight:700;background:#FAEEDA;color:#633806;padding:3px 10px;border-radius:20px;font-family:monospace">0 puan</span></div>
+      <div id="sn-wrap"></div>
+    </div>
+
+    <!-- ══ ANLAT BAKALIM ══ -->
+    <div class="sc" id="s-tabu">
+      <div style="display:flex;align-items:center;margin-bottom:12px"><button class="back" onclick="go('oyunlar')">← Geri</button><div style="font-size:14px;font-weight:700;flex:1;color:var(--txt)">Q.U.R.U ile Anlat Bakalım</div><span id="tabu-pts" style="font-size:13px;font-weight:700;font-family:monospace;color:var(--txt)">0 puan</span></div>
+      <div id="tabu-intro"><div style="background:var(--bg3);border-radius:10px;padding:14px;margin-bottom:12px;font-size:12px;color:var(--txt2);line-height:1.8">Bir kişi kartı görür, ekibine <strong style="color:var(--txt)">yasaklı kelimeleri kullanmadan</strong> ISG terimini anlatır.<br><br><span style="color:#27500A">✓ Doğru +20 pt</span> &nbsp;·&nbsp; <span style="color:#444">⏭ Pas ±0</span> &nbsp;·&nbsp; <span style="color:#A32D2D">✗ Yasaklı −10 pt</span></div><button class="btn dk" onclick="tabuStart()">Oyunu Başlat →</button></div>
+      <div id="tabu-game" style="display:none">
+        <div class="tabu-card"><div class="tabu-timer" id="tabu-timer">60</div><div class="tabu-skor" id="tabu-skor">0 / <span id="tabu-top">0</span></div><div class="tabu-kelime" id="tabu-kelime">—</div><div class="tabu-ylbl">Yasaklı Kelimeler</div><div class="tabu-yasak" id="tabu-yasak"></div></div>
+        <div class="tabu-btns"><button class="t-btn t-d" onclick="tabuAct('d')">✓ Doğru<br><small>+20 pt</small></button><button class="t-btn t-p" onclick="tabuAct('p')">⏭ Pas<br><small>±0</small></button><button class="t-btn t-y" onclick="tabuAct('y')">✗ Yasaklı<br><small>−10 pt</small></button></div>
+        <div style="margin-top:8px;text-align:center;font-size:11px;color:var(--txt3)">Kalan: <span id="tabu-kalan">—</span> kart</div>
+      </div>
+      <div id="tabu-end" style="display:none;text-align:center;padding:24px 0"><div style="font-size:40px;margin-bottom:10px">🏆</div><div style="font-size:16px;font-weight:700;margin-bottom:6px;color:var(--txt)">Tur Bitti!</div><div style="font-size:13px;color:var(--txt3);margin-bottom:16px">Toplam: <strong id="tabu-final">0</strong> puan</div><div class="g2"><button class="btn rd" onclick="tabuStart()">Tekrar Oyna</button><button class="btn" onclick="go('puan')">Puana Ekle</button></div></div>
+    </div>
+
+    <!-- ══ ISG KÜTÜPHANESİ ══ -->
+    <div class="sc" id="s-kutuphane">
+      <div class="sec-hd"><div class="lbl">📚 Dijital ISG Kütüphanesi</div></div>
+      <div style="background:var(--bg3);border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:var(--txt3)">QR kodu telefon kamerasıyla okut → ilgili dokümana direkt ulaş. URL alanını güncelleyerek kendi linkinizi ekleyebilirsiniz.</div>
+      <div id="kutuphane-list"></div>
+      <div class="lbl" style="margin-top:14px">Özel Döküman Ekle</div>
+      <div class="fsec">
+        <label class="fl">Döküman Başlığı</label>
+        <input class="fi" id="dok-baslik" placeholder="örn: Vinç Sapanlama Prosedürü"/>
+        <label class="fl">URL (PDF veya web linki)</label>
+        <input class="fi" id="dok-url" placeholder="https://..."/>
+        <label class="fl">Kategori</label>
+        <select class="fi" id="dok-kat" style="margin-bottom:0">
+          <option>Kaldırma Operasyonları</option>
+          <option>Kimyasal Güvenlik</option>
+          <option>Acil Durum</option>
+          <option>KKD</option>
+          <option>Diğer</option>
+        </select>
+        <button class="btn dk" style="margin-top:8px;margin-bottom:0" onclick="dokEkle()">💾 Kütüphaneye Ekle →</button>
+        <div class="save-ok" id="dok-ok">✓ Döküman eklendi!</div>
+      </div>
+    </div>
+
+    <!-- ══ AÇI ANALİZİ ══ -->
+    <div class="sc" id="s-aci">
+      <div class="sec-hd"><div class="lbl">📐 Sapanlama Açı Analizi</div></div>
+      <div style="background:var(--red);border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:13px;color:#fff;font-weight:600;text-align:center;letter-spacing:.3px">
+        ⚠️ YANLIŞ AÇI CAN ALIR! — Kaldırma öncesi açı faktörünü mutlaka hesapla
+      </div>
+      <!-- AutoCAD tarzı teknik çizim -->
+      <div style="background:var(--navy);border-radius:14px;padding:16px;margin-bottom:12px;overflow:hidden">
+        <div style="font-size:11px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px;font-weight:600">Teknik Çizim — Açı Faktörü Analizi</div>
+        <svg viewBox="0 0 480 280" style="width:100%;max-height:280px" xmlns="http://www.w3.org/2000/svg">
+          <!-- Grid arka plan -->
+          <defs>
+            <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,.05)" stroke-width=".5"/>
+            </pattern>
+            <marker id="arr" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#5DCAA5"/>
+            </marker>
+            <marker id="arr-red" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto">
+              <path d="M0,0 L6,3 L0,6 Z" fill="#E8402A"/>
+            </marker>
+          </defs>
+          <rect width="480" height="280" fill="url(#grid)"/>
+          <!-- Line of Fire zone -->
+          <rect x="160" y="60" width="160" height="220" fill="rgba(232,64,42,.12)" rx="4"/>
+          <text x="240" y="52" text-anchor="middle" font-size="9" fill="rgba(232,64,42,.7)" font-family="monospace" font-weight="700">⚠ LINE OF FIRE</text>
+          <text x="240" y="64" text-anchor="middle" font-size="8" fill="rgba(232,64,42,.5)" font-family="monospace">PERSONEL DURMASIN</text>
+          <!-- Kanca noktası -->
+          <circle cx="240" cy="30" r="6" fill="none" stroke="#5DCAA5" stroke-width="1.5"/>
+          <path d="M240,24 L240,10" stroke="#5DCAA5" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <text x="248" y="18" font-size="9" fill="#5DCAA5" font-family="monospace">VINÇ KANCASI</text>
+          <!-- YÜK -->
+          <rect x="215" y="220" width="50" height="35" rx="4" fill="rgba(245,194,0,.15)" stroke="#f5c200" stroke-width="1.5"/>
+          <text x="240" y="240" text-anchor="middle" font-size="10" fill="#f5c200" font-weight="700" font-family="monospace">YÜK</text>
+          <text x="240" y="252" text-anchor="middle" font-size="9" fill="rgba(245,194,0,.7)" font-family="monospace">5 TON</text>
+          <!-- 30° sapan - YEŞİL (doğru) -->
+          <line x1="240" y1="30" x2="130" y2="220" stroke="#5DCAA5" stroke-width="2"/>
+          <line x1="240" y1="30" x2="350" y2="220" stroke="#5DCAA5" stroke-width="2"/>
+          <text x="95" y="165" font-size="10" fill="#5DCAA5" font-weight="700" font-family="monospace">30°</text>
+          <text x="95" y="178" font-size="9" fill="#5DCAA5" font-family="monospace">WLL × 0.96</text>
+          <text x="95" y="190" font-size="8" fill="rgba(87,202,165,.7)" font-family="monospace">✓ GÜVENLİ</text>
+          <!-- 45° sapan - SARI (dikkat) -->
+          <line x1="240" y1="30" x2="155" y2="220" stroke="#f5c200" stroke-width="2" stroke-dasharray="6,3" opacity=".7"/>
+          <line x1="240" y1="30" x2="325" y2="220" stroke="#f5c200" stroke-width="2" stroke-dasharray="6,3" opacity=".7"/>
+          <text x="113" y="130" font-size="10" fill="#f5c200" font-weight="700" font-family="monospace">45°</text>
+          <text x="113" y="143" font-size="9" fill="#f5c200" font-family="monospace">WLL × 0.71</text>
+          <!-- 60° sapan - KIRMIZI (tehlike) -->
+          <line x1="240" y1="30" x2="180" y2="220" stroke="#E8402A" stroke-width="2.5" stroke-dasharray="4,3" opacity=".85"/>
+          <line x1="240" y1="30" x2="300" y2="220" stroke="#E8402A" stroke-width="2.5" stroke-dasharray="4,3" opacity=".85"/>
+          <text x="148" y="100" font-size="10" fill="#E8402A" font-weight="700" font-family="monospace">60°</text>
+          <text x="148" y="113" font-size="9" fill="#E8402A" font-family="monospace">WLL × 0.50</text>
+          <text x="148" y="125" font-size="8" fill="rgba(232,64,42,.8)" font-family="monospace">✗ TEHLİKE</text>
+          <!-- Açı yayları -->
+          <path d="M240,30 Q226,60 218,75" fill="none" stroke="#5DCAA5" stroke-width=".8" opacity=".5"/>
+          <path d="M240,30 Q228,55 221,68" fill="none" stroke="#f5c200" stroke-width=".8" opacity=".5"/>
+          <path d="M240,30 Q231,52 226,62" fill="none" stroke="#E8402A" stroke-width=".8" opacity=".5"/>
+          <!-- Ölçüm çizgileri -->
+          <line x1="40" y1="220" x2="440" y2="220" stroke="rgba(255,255,255,.15)" stroke-width=".5"/>
+          <text x="436" y="218" font-size="8" fill="rgba(255,255,255,.3)" font-family="monospace">ZEMIN</text>
+        </svg>
+      </div>
+      <!-- Karşılaştırma tablosu -->
+      <div class="lbl">Doğru vs Yanlış Karşılaştırma</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+        <div style="background:#EAF3DE;border-radius:12px;padding:14px;border:1.5px solid #97C459">
+          <div style="font-size:12px;font-weight:700;color:#27500A;margin-bottom:10px">✅ DOĞRU YÖNTEMler</div>
+          <div style="font-size:11px;color:#27500A;line-height:1.8">• Açı ≤ 30° — tam kapasite<br>• Kaldırma planı yazılı<br>• Sapan hasarsız ve kontrollü<br>• Güvenlik çevresi kuruldu<br>• Sinyalci konumlandı<br>• WLL hesabı yapıldı<br>• Yük tartıldı</div>
+        </div>
+        <div style="background:#FCEBEB;border-radius:12px;padding:14px;border:1.5px solid #F09595">
+          <div style="font-size:12px;font-weight:700;color:#A32D2D;margin-bottom:10px">❌ YANLIŞ YÖNTEMler</div>
+          <div style="font-size:11px;color:#A32D2D;line-height:1.8">• Açı ≥ 60° — %50 kapsite kaybı<br>• Aceleyle kaldırma<br>• Hasarlı sapan kullanımı<br>• Line of Fire'da personel<br>• Sinyalcisiz operasyon<br>• WLL hesabı yapılmadı<br>• Yük bilinmeden kaldırma</div>
+        </div>
+      </div>
+      <!-- Açı hesaplama aracı -->
+      <div class="lbl">İnteraktif Açı Hesaplayıcı</div>
+      <div class="fsec">
+        <label class="fl">Kollar Arası Açı (derece)</label>
+        <input type="range" id="aci-range" min="0" max="90" value="30" oninput="aciHesapla()" style="width:100%;margin-bottom:10px;accent-color:var(--red)">
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--txt3);margin-top:-8px;margin-bottom:10px"><span>0°</span><span>30°</span><span>45°</span><span>60°</span><span>90°</span></div>
+        <div style="background:var(--navy);border-radius:10px;padding:14px;text-align:center">
+          <div style="font-size:32px;font-weight:700;color:#fff;font-family:monospace" id="aci-derece">30°</div>
+          <div style="font-size:13px;color:rgba(255,255,255,.6);margin:4px 0" id="aci-faktor">Açı Faktörü: 0.96</div>
+          <div style="font-size:14px;font-weight:600;margin-top:8px" id="aci-durum">✅ Güvenli</div>
+        </div>
+        <div style="margin-top:10px;font-size:12px;color:var(--txt3)">WLL'ini gir (ton):</div>
+        <div style="display:flex;gap:8px;margin-top:6px">
+          <input type="number" id="aci-wll" placeholder="10" min="0" max="999" step="0.5" class="fi" style="max-width:120px;margin-bottom:0" oninput="aciHesapla()">
+          <div style="flex:1;background:var(--bg3);border-radius:9px;padding:10px;font-size:13px;font-weight:600;color:var(--txt);display:flex;align-items:center" id="aci-sonuc">Efektif kapasite: —</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ EKİPMANLAR ══ -->
+    <div class="sc" id="s-ekipmanlar">
+      <div class="sec-hd"><div class="lbl">Ekipman Bilgi Kartları</div><button class="add-btn" onclick="yazdir('ekipman')">🖨️ Yazdır</button></div>
+      <div id="eq-list"></div>
+    </div>
+
+    <!-- ══ ISG TAKVİM ══ -->
+    <div class="sc" id="s-takvim">
+      <div class="sec-hd"><div class="lbl">ISG Takvimi</div><button class="add-btn" onclick="go('panel')">+ Etkinlik Ekle</button></div>
+      <div id="takvim-list"></div>
+    </div>
+
+    <!-- ══ PUANLAR ══ -->
+    <div class="sc" id="s-puan">
+      <div class="sec-hd"><div class="lbl">Liderlik Tablosu</div><button class="add-btn" onclick="go('panel')">+ Personel Ekle</button></div>
+      <div class="card" id="lb-wrap"></div>
+      <div class="lbl">Rozet Sistemi</div>
+      <div class="g3" style="margin-bottom:8px">
+        <div class="rozet"><div style="font-size:20px;margin-bottom:4px">🦺</div><div style="font-size:11px;font-weight:600;color:var(--txt)">ISG Çırağı</div><div style="font-size:10px;color:var(--txt3);font-family:monospace">0–200 pt</div></div>
+        <div class="rozet"><div style="font-size:20px;margin-bottom:4px">⛑️</div><div style="font-size:11px;font-weight:600;color:var(--txt)">Güvenli</div><div style="font-size:10px;color:var(--txt3);font-family:monospace">200–500 pt</div></div>
+        <div class="rozet"><div style="font-size:20px;margin-bottom:4px">🏗️</div><div style="font-size:11px;font-weight:600;color:var(--txt)">ISG Uzmanı</div><div style="font-size:10px;color:var(--txt3);font-family:monospace">500–800 pt</div></div>
+      </div>
+      <div class="g2" style="margin-bottom:10px">
+        <div class="rozet" style="background:var(--navy);border:none"><div style="font-size:20px;margin-bottom:4px">🏆</div><div style="font-size:11px;font-weight:600;color:#fff">Şampiyon</div><div style="font-size:10px;color:rgba(255,255,255,.4);font-family:monospace">800–1200 pt</div></div>
+        <div class="rozet" style="background:#6b0000;border:none"><div style="font-size:20px;margin-bottom:4px">🔥</div><div style="font-size:11px;font-weight:600;color:#fff">Q.U.R.U Ustası</div><div style="font-size:10px;color:rgba(255,255,255,.4);font-family:monospace">1200+ pt</div></div>
+      </div>
+      <button class="btn dk" onclick="go('oyunlar')">Puan Kazan →</button>
+    </div>
+
+    <!-- ══ YÖNETİM PANELİ ══ -->
+    <div class="sc" id="s-panel">
+      <div style="background:#EAF3DE;border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:#27500A;display:flex;align-items:center;gap:8px">💾 Tüm değişiklikler tarayıcıya kaydedilir. Sayfa yenilenince korunur. Üst çubuktan yedek alabilirsin.</div>
+
+      <!-- BİLBOARD -->
+      <div class="lbl">Billboard Görselleri</div>
+      <div class="fsec">
+        <div style="font-size:12px;color:var(--txt3);margin-bottom:10px;line-height:1.6">Ana sayfada animasyonlu slayt olarak görünür. Şirket içi duyuru, güvenlik hatırlatma veya etkinlik görseli ekleyebilirsin.</div>
+        <div class="upload-drop" id="bb-drop" onclick="document.getElementById('bb-file-inp').click()" ondragover="bbDragOver(event)" ondragleave="bbDragLeave(event)" ondrop="bbDropFile(event)">
+          <input type="file" id="bb-file-inp" accept="image/*" multiple style="display:none" onchange="bbFileSelected(this)">
+          <div class="udi" style="background:#E6F1FB"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="12" rx="2" stroke="#0C447C" stroke-width="1.3"/><circle cx="7" cy="9" r="1.5" stroke="#0C447C" stroke-width="1"/><path d="M2 13l4-4 3 3 3-4 4 5" stroke="#0C447C" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div>
+          <div style="font-size:13px;font-weight:500;color:var(--txt);margin-bottom:3px">Görsel Yükle (Sürükle veya Tıkla)</div>
+          <div style="font-size:11px;color:var(--txt3)">JPG, PNG, GIF — birden fazla seçebilirsin</div>
+        </div>
+        <label class="fl">Görsel Başlığı / Açıklaması (isteğe bağlı)</label>
+        <input class="fi" id="bb-cap-inp" placeholder="örn: Nisan 2025 ISG Farkındalık Ayı" style="margin-bottom:0"/>
+        <button class="btn dk" style="margin-top:8px;margin-bottom:0" onclick="bbGorselEkle()">💾 Billboard'a Ekle →</button>
+        <div class="save-ok" id="bb-ok">✓ Görsel eklendi!</div>
+      </div>
+      <div class="sec-hd"><div class="lbl">Mevcut Billboard</div><button class="add-btn" onclick="bbTemizle()" style="color:#A32D2D;border-color:#F09595">× Tümünü Temizle</button></div>
+      <div id="bb-liste"></div>
+
+      <!-- DUYURU -->
+      <div class="lbl" style="margin-top:8px">Duyuru Yayınla</div>
+      <div class="fsec">
+        <label class="fl">Duyuru Metni</label>
+        <textarea class="fi" id="d-metin" rows="3" style="resize:none" placeholder="Tüm personele iletmek istediğin mesajı buraya yaz..."></textarea>
+        <label class="fl">Önem Seviyesi</label>
+        <select class="fi" id="d-onemi" style="margin-bottom:0"><option value="normal">Normal Bilgi</option><option value="onemli">Önemli</option><option value="acil">Acil / Kritik</option></select>
+        <button class="btn dk" style="margin-top:8px;margin-bottom:0" onclick="duyuruYayinla()">💾 Kaydet ve Yayınla →</button>
+        <div class="save-ok" id="duyuru-ok">✓ Duyuru kaydedildi!</div>
+      </div>
+
+      <!-- VİDEO EKLE -->
+      <div class="lbl">Video Ekle</div>
+      <div class="fsec">
+        <label class="fl">YouTube Video Linki (isteğe bağlı)</label>
+        <input class="fi" id="v-yt" placeholder="https://www.youtube.com/watch?v=..."/>
+        <div style="text-align:center;font-size:11px;color:var(--txt3);margin:-4px 0 8px">— veya —</div>
+        <div class="upload-drop" id="drop-zone" onclick="document.getElementById('file-inp').click()" ondragover="dragOver(event)" ondragleave="dragLeave(event)" ondrop="dropFile(event)">
+          <input type="file" id="file-inp" accept="video/*" style="display:none" onchange="fileSelected(this)">
+          <div class="udi" style="background:#FCEBEB"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3v10M6 7l4-4 4 4" stroke="#A32D2D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 15h14" stroke="#A32D2D" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+          <div style="font-size:13px;font-weight:500;color:var(--txt);margin-bottom:3px" id="dt">Videoyu Sürükle Bırak veya Tıkla</div>
+          <div style="font-size:11px;color:var(--txt3)" id="ds">MP4, MOV, AVI</div>
+        </div>
+        <label class="fl">Video Başlığı *</label>
+        <input class="fi" id="v-t" placeholder="örn: Doğru Sapan Bağlama Tekniği"/>
+        <label class="fl">Kategori</label>
+        <select class="fi" id="v-c"><option>Kaldırma Operasyonları</option><option>Yaşanmış Kazalar</option><option>KKD & Ekipman Eğitimleri</option><option>60 Saniye ISG Shorts</option><option>Oryantasyon</option></select>
+        <label class="fl">Süre</label>
+        <input class="fi" id="v-d" placeholder="örn: 4:30" style="max-width:120px;margin-bottom:0"/>
+        <button class="btn dk" style="margin-top:8px;margin-bottom:0" onclick="videoEkle()">💾 Arşive Kaydet →</button>
+        <div class="save-ok" id="video-ok">✓ Video kaydedildi!</div>
+      </div>
+      <div class="sec-hd" style="margin-top:4px"><div class="lbl">Video Arşivi</div><span id="arc-cnt" style="font-size:12px;color:var(--txt3)"></span></div>
+      <div id="v-archive"></div>
+
+      <!-- EKİPMAN NOT -->
+      <div class="lbl" style="margin-top:8px">Ekipman Kartına Not Ekle</div>
+      <div class="fsec">
+        <label class="fl">Ekipman</label>
+        <select class="fi" id="eq-s"><option>Zincir Sapanlar</option><option>Halat Sapanlar</option><option>Sentetik Sapanlar</option><option>Kancalar</option><option>Emniyet Kemeri + Yoyo</option><option>KKD Seti</option><option>Kimyasal Ekipmanlar</option><option>Forklift / Transpalet</option><option>Vinçler ve Kaldırma Makineleri</option></select>
+        <label class="fl">Not / Bilgi</label>
+        <textarea class="fi" id="eq-n" rows="3" style="resize:none;margin-bottom:0" placeholder="Bu karta eklemek istediğin bilgi veya risk uyarısı..."></textarea>
+        <button class="btn dk" style="margin-top:8px;margin-bottom:0" onclick="eqNotEkle()">💾 Karta Kaydet →</button>
+        <div class="save-ok" id="eq-ok">✓ Not kaydedildi!</div>
+      </div>
+
+      <!-- PERSONEL -->
+      <div class="lbl">Personel Ekle / Puan Güncelle</div>
+      <div class="fsec">
+        <div class="g2">
+          <div><label class="fl">Ad Soyad</label><input class="fi" id="p-n" placeholder="Ali Demir" style="margin-bottom:0"/></div>
+          <div><label class="fl">Puan</label><input class="fi" type="number" id="p-p" placeholder="0" min="0" style="margin-bottom:0"/></div>
+        </div>
+        <label class="fl" style="margin-top:8px">Not (isteğe bağlı)</label>
+        <input class="fi" id="p-not" placeholder="örn: Bu ayın ödülünü kazandı 🏆" style="margin-bottom:0"/>
+        <button class="btn dk" style="margin-top:8px;margin-bottom:0" onclick="personelEkle()">💾 Tabloya Kaydet →</button>
+        <div class="save-ok" id="personel-ok">✓ Personel eklendi!</div>
+      </div>
+
+      <!-- PERSONEL LİSTESİ (düzenle/sil) -->
+      <div class="lbl">Mevcut Personeller</div>
+      <div id="personel-liste"></div>
+
+      <!-- TAKVİM EKLE -->
+      <div class="lbl" style="margin-top:8px">ISG Takvimi — Etkinlik Ekle</div>
+      <div class="fsec">
+        <div class="g2">
+          <div><label class="fl">Tarih</label><input class="fi" type="date" id="tak-tarih" style="margin-bottom:0"/></div>
+          <div><label class="fl">Tür</label>
+            <select class="fi" id="tak-tur" style="margin-bottom:0">
+              <option value="tatbikat">Tatbikat</option>
+              <option value="muayene">Periyodik Muayene</option>
+              <option value="egitim">Eğitim</option>
+              <option value="denetim">Denetim</option>
+              <option value="toplanti">ISG Toplantısı</option>
+            </select>
+          </div>
+        </div>
+        <label class="fl" style="margin-top:8px">Başlık</label>
+        <input class="fi" id="tak-baslik" placeholder="örn: Yıllık Yangın Tatbikatı" style="margin-bottom:0"/>
+        <button class="btn dk" style="margin-top:8px;margin-bottom:0" onclick="takEkle()">💾 Takvime Ekle →</button>
+        <div class="save-ok" id="tak-ok">✓ Etkinlik eklendi!</div>
+      </div>
+
+      <!-- SOZ -->
+      <div class="lbl">Ayın ISG Sözünü Güncelle</div>
+      <div class="fsec">
+        <textarea class="fi" id="soz-inp" rows="2" style="resize:none;margin-bottom:0" placeholder="Yeni sözü buraya yaz..."></textarea>
+        <button class="btn dk" style="margin-top:8px;margin-bottom:0" onclick="sozGuncelle()">💾 Kaydet →</button>
+        <div class="save-ok" id="soz-ok">✓ Söz güncellendi!</div>
+      </div>
+    </div>
+
+  </div><!-- .content -->
+</div><!-- .desktop-layout -->
+
+<!-- VIDEO MODAL -->
+<div class="modal-overlay" id="vmodal" onclick="closeModalOut(event)">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-video-area">
+      <button class="modal-close" onclick="closeVideoModal()">✕</button>
+      <iframe class="yt-frame" id="yt-frame" allowfullscreen allow="autoplay"></iframe>
+      <video class="local-player" id="local-player" controls></video>
+      <div class="modal-placeholder" id="mpl">
+        <div style="text-align:center">
+          <div style="font-size:13px;font-weight:500;color:#fff;margin-bottom:10px">Video dosyası yüklenmemiş</div>
+          <label style="cursor:pointer;background:var(--red);color:#fff;padding:8px 16px;border-radius:9px;font-size:12px;font-weight:500" for="mfile">📁 Dosya Seç</label>
+          <input type="file" id="mfile" accept="video/*" style="display:none" onchange="modalFileLoad(this)">
+          <div style="color:rgba(255,255,255,.35);font-size:10px;margin-top:8px">Veya Yönetim panelinden YouTube linki ekle</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-title" id="m-title">Video</div>
+      <div class="modal-meta"><span class="bdg br" id="m-cat"></span><span style="font-family:monospace;font-size:11px;color:var(--txt3)" id="m-dur"></span></div>
+      <button class="btn sm" onclick="closeVideoModal()">Kapat</button>
+    </div>
+  </div>
+</div>
+
+<!-- OYUN MODALI -->
+<div class="oyun-modal-overlay" id="oyun-modal">
+  <div class="oyun-modal-box">
+    <div class="oyun-modal-hd">
+      <div class="oyun-modal-title" id="om-title">Oyun</div>
+      <button class="oyun-modal-close" onclick="closeOyunModal()">×</button>
+    </div>
+    <div class="oyun-modal-body" id="om-body"></div>
+  </div>
+</div>
+
+</div><!-- .app -->
+
+<script>
+// ════════════════════════════════════
+// LOCALSTORAGE SİSTEMİ
+// ════════════════════════════════════
+function lsGet(k,def){try{const v=localStorage.getItem('quru_'+k);return v?JSON.parse(v):def;}catch(e){return def;}}
+function lsSet(k,v){try{localStorage.setItem('quru_'+k,JSON.stringify(v));}catch(e){console.warn('LS yazma hatası:',e);}}
+function showOk(id){const el=document.getElementById(id);if(el){el.style.display='block';setTimeout(()=>el.style.display='none',2500);}}
+
+// ════════════════════════════════════
+// VERİ — TÜMÜ LOCALSTORAGE'DAN
+// ════════════════════════════════════
+const VID_DEF=[
+  {t:"Sapan Seçimi — 3 Hata",c:"Kaldırma Operasyonları",d:"4:30",col:"#8b1a1a",tag:"br",ytId:null},
+  {t:"Mükemmel Vinç Operasyonu",c:"Kaldırma Operasyonları",d:"6:15",col:"#1a2e6e",tag:"bb",ytId:null},
+  {t:"Açı Faktörü — Hesabını Bil",c:"Kaldırma Operasyonları",d:"4:00",col:"#1a4a2e",tag:"bt",ytId:null},
+  {t:"Dar Alanda Kaldırma",c:"Kaldırma Operasyonları",d:"5:10",col:"#2e1a4a",tag:"bp",ytId:null},
+  {t:"Kanca Güvenliği",c:"Kaldırma Operasyonları",d:"3:45",col:"#5a3200",tag:"ba",ytId:null},
+  {t:"Forklift ile Güvenli Taşıma",c:"Kaldırma Operasyonları",d:"5:45",col:"#2e3a00",tag:"bg",ytId:null},
+  {t:"Sapan Koptu — O Gün Ne Oldu?",c:"Yaşanmış Kazalar",d:"5:20",col:"#3a0a0a",tag:"br",ytId:null},
+  {t:"Kemeri Takmadı — Yüksekten Düştü",c:"Yaşanmış Kazalar",d:"4:55",col:"#1a0a3a",tag:"bp",ytId:null},
+  {t:"Forklift Devrildi",c:"Yaşanmış Kazalar",d:"4:50",col:"#2a1a00",tag:"ba",ytId:null},
+  {t:"Kimyasal Döküldü — İlk 60 Saniye",c:"Yaşanmış Kazalar",d:"6:00",col:"#1a2e1a",tag:"bt",ytId:null},
+  {t:"KKD Takmadı — Göz Yaralandı",c:"Yaşanmış Kazalar",d:"5:00",col:"#2e0a0a",tag:"br",ytId:null},
+  {t:"Kanca Açıldı — Yük Düştü",c:"Yaşanmış Kazalar",d:"4:20",col:"#2e1a00",tag:"ba",ytId:null},
+  {t:"Emniyet Kemeri + Yoyo Doğru Kullanım",c:"KKD & Ekipman Eğitimleri",d:"5:00",col:"#1a1a4a",tag:"bp",ytId:null},
+  {t:"Renk Kodu — Hangi Sapan Kaç Ton?",c:"KKD & Ekipman Eğitimleri",d:"3:15",col:"#1a3a2e",tag:"bt",ytId:null},
+  {t:"Sessiz Anlatım — Q.U.R.U Gösteriyor",c:"KKD & Ekipman Eğitimleri",d:"2:00",col:"#2e0a2e",tag:"bp",ytId:null},
+  {t:"KKD Giyme Yarışması",c:"KKD & Ekipman Eğitimleri",d:"3:30",col:"#0a2e1a",tag:"bg",ytId:null},
+  {t:"60sn: WLL Nedir?",c:"60 Saniye ISG Shorts",d:"0:60",col:"#1a1a2e",tag:"bgr",ytId:null},
+  {t:"60sn: Yoyo Nasıl Çalışır?",c:"60 Saniye ISG Shorts",d:"0:60",col:"#1a1a2e",tag:"bgr",ytId:null},
+  {t:"60sn: Açı Faktörü",c:"60 Saniye ISG Shorts",d:"0:60",col:"#1a1a2e",tag:"bgr",ytId:null},
+  {t:"60sn: Kimyasal Döküntü İlk 3 Adım",c:"60 Saniye ISG Shorts",d:"0:60",col:"#1a1a2e",tag:"bgr",ytId:null},
+];
+let vidEkstra = (()=>{
+  // Önce base64 kayıtlı versiyonu dene
+  const b64=lsGet('vidEkstraB64',[]);
+  if(b64.length){
+    return b64.map(v=>({...v,localUrl:v.localB64||v.localUrl||null}));
+  }
+  return lsGet('vidEkstra',[]);
+})();
+let duyurular = lsGet('duyurular',[]);
+let personeller = lsGet('personeller',[
+  {nm:"Ahmet K.",init:"AK",puan:840,av:"#FAEEDA",tc:"#633806",bc:"#e8402a",not:""},
+  {nm:"Mehmet Y.",init:"MY",puan:720,av:"#E6F1FB",tc:"#0C447C",bc:"#378ADD",not:""},
+  {nm:"Fatma A.",init:"FA",puan:610,av:"#EAF3DE",tc:"#27500A",bc:"#639922",not:""},
+  {nm:"Hasan B.",init:"HB",puan:540,av:"#F1EFE8",tc:"#444441",bc:"#888780",not:""},
+  {nm:"Zeynep D.",init:"ZD",puan:490,av:"#FCEBEB",tc:"#A32D2D",bc:"#e8402a",not:""},
+]);
+let eqNotes = lsGet('eqNotes',{});
+let sozTxt = lsGet('soz','"Güvenli davranış alışkanlık olduğunda, kaza ihtimal dışı kalır."');
+let takvimler = lsGet('takvim',[]);
+let bakimlar = lsGet('bakim',[]);
+let bbSlides = lsGet('billboard',[]);
+let bbCur = 0;
+let bbTimer = null;
+
+function allVids(){return [...VID_DEF,...vidEkstra];}
+
+// ════════════════════════════════════
+// YEDEK AL / GERİ YÜKLE
+// ════════════════════════════════════
+function yedegiIndir(){
+  const data={
+    vidEkstra,duyurular,personeller,eqNotes,
+    soz:sozTxt,takvim:takvimler,bakim:bakimlar,
+    billboard:bbSlides.map(s=>({...s,src:s.src.substring(0,50)+'...[base64]'})),
+    _notBillboard:'Billboard görselleri büyük olduğu için yedekte özet gösterilir. Görseller tarayıcıda kalır.',
+    _tarih:new Date().toISOString()
+  };
+  // Billboard'u da yedekle
+  const fullData={...data,billboard:bbSlides};
+  const blob=new Blob([JSON.stringify(fullData,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='QURU_TV_yedek_'+new Date().toISOString().split('T')[0]+'.json';
+  a.click();URL.revokeObjectURL(a.href);
+}
+function yedegiYukle(input){
+  if(!input.files||!input.files[0])return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const d=JSON.parse(e.target.result);
+      if(d.vidEkstra){vidEkstra=d.vidEkstra;lsSet('vidEkstra',vidEkstra);}
+      if(d.duyurular){duyurular=d.duyurular;lsSet('duyurular',duyurular);}
+      if(d.personeller){personeller=d.personeller;lsSet('personeller',personeller);}
+      if(d.eqNotes){eqNotes=d.eqNotes;lsSet('eqNotes',eqNotes);}
+      if(d.soz){sozTxt=d.soz;lsSet('soz',sozTxt);}
+      if(d.takvim){takvimler=d.takvim;lsSet('takvim',takvimler);}
+      if(d.bakim){bakimlar=d.bakim;lsSet('bakim',bakimlar);}
+      if(d.billboard&&d.billboard.length){bbSlides=d.billboard;lsSet('billboard',bbSlides);}
+      alert('✓ Yedek başarıyla geri yüklendi!');
+      location.reload();
+    }catch(err){alert('Hata: Geçersiz yedek dosyası.');}
+  };
+  reader.readAsText(input.files[0]);
+}
+
+// ════════════════════════════════════
+// KARANLIK MOD
+// ════════════════════════════════════
+function toggleDark(){
+  document.body.classList.toggle('dark');
+  lsSet('darkMode',document.body.classList.contains('dark'));
+  const btn=document.querySelector('.dark-btn');
+  if(btn)btn.textContent=document.body.classList.contains('dark')?'☀️':'🌙';
+}
+
+// ════════════════════════════════════
+// SAAT
+// ════════════════════════════════════
+function updateClock(){
+  const n=new Date();
+  const clk=document.getElementById('clk');
+  if(clk)clk.textContent=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')+':'+String(n.getSeconds()).padStart(2,'0');
+  const GN=['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'];
+  const AY=['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+  const cd=document.getElementById('clkd');
+  if(cd)cd.textContent=GN[n.getDay()]+', '+n.getDate()+' '+AY[n.getMonth()]+' '+n.getFullYear();
+}
+setInterval(updateClock,1000);updateClock();
+
+// ════════════════════════════════════
+// NAV
+// ════════════════════════════════════
+function go(id){
+  document.querySelectorAll('.sc').forEach(s=>s.classList.remove('on'));
+  // Sidebar
+  document.querySelectorAll('.sidebar-nav .nb,.mobile-nav .nb').forEach(b=>b.classList.remove('on'));
+  const s=document.getElementById('s-'+id);if(s)s.classList.add('on');
+  // Sidebar nav item
+  document.querySelectorAll('.sidebar-nav .nb,.mobile-nav .nb').forEach(b=>{
+    if(b.getAttribute('onclick')&&b.getAttribute('onclick').includes("'"+id+"'"))b.classList.add('on');
+  });
+  if(id==='quiz'){cQ=0;qScore=0;qAns=false;renderQ();}
+  if(id==='senaryo'){cSN=0;snScore=0;snAns=false;renderSN();}
+  if(id==='ekipmanlar')renderEQ();
+  if(id==='puan')renderLB();
+  if(id==='panel'){renderArchive();renderLB();bbRenderListe();renderPersonelListe();renderTakvim();}
+  if(id==='videolar')renderVideoSections();
+  if(id==='oyunlar')renderGames();
+  if(id==='takvim'){renderTakvim();}
+  if(id==='kutuphane')renderKutuphane();
+  if(id==='aci'){aciHesapla();}
+  if(id==='oryantasyon'){oryIdx=0;oryPlaying=false;clearInterval(oryIntvl);try{window.speechSynthesis.cancel();}catch(e){}renderOry();}
+  if(id==='tabu'){document.getElementById('tabu-intro').style.display='block';document.getElementById('tabu-game').style.display='none';document.getElementById('tabu-end').style.display='none';clearInterval(tTimer);}
+  document.querySelectorAll('.soz-txt,#ana-soz,#soz-disp').forEach(el=>{if(el)el.textContent=sozTxt;});
+  window.scrollTo(0,0);
+}
+
+// ════════════════════════════════════
+// BİLBOARD
+// ════════════════════════════════════
+function bbRender(){
+  const empty=document.getElementById('bb-empty');
+  const slidesWrap=document.getElementById('bb-slides');
+  const overlay=document.getElementById('bb-overlay');
+  const captionEl=document.getElementById('bb-caption');
+  const dotsEl=document.getElementById('bb-dots');
+  const controls=document.getElementById('bb-controls');
+  const count=document.getElementById('bb-count');
+  if(!empty)return;
+  // Tüm slaylar = kullanıcı görselleri + yıldız slaytı (personel varsa)
+  const allSlides=buildAllSlides();
+  if(!allSlides.length){
+    empty.style.display='flex';[slidesWrap,overlay,captionEl,dotsEl,controls,count].forEach(e=>{if(e)e.style.display='none';});
+    clearInterval(bbTimer);return;
+  }
+  empty.style.display='none';
+  slidesWrap.style.display='block';controls.style.display='flex';
+  // Slayları render et
+  slidesWrap.innerHTML=allSlides.map((s,i)=>{
+    if(s.type==='star'){
+      return `<div class="bb-slide type-star${i===bbCur?' active':''}" id="bbs-${i}"><div class="star-slide">${buildStarCard(s.person)}</div></div>`;
+    }
+    return `<div class="bb-slide${i===bbCur?' active':''}" id="bbs-${i}"><img src="${s.src}" alt="${s.caption||''}"></div>`;
+  }).join('');
+  // Overlay sadece resim slayda göster
+  const curSlide=allSlides[bbCur];
+  overlay.style.display=(curSlide&&curSlide.type!=='star')?'block':'none';
+  // Caption
+  const cap=(curSlide&&curSlide.type!=='star')?curSlide.caption:'';
+  captionEl.style.display=cap?'block':'none';if(cap)captionEl.textContent=cap;
+  // Dots
+  if(allSlides.length>1){dotsEl.style.display='flex';dotsEl.innerHTML=allSlides.map((_,i)=>`<button class="bb-dot${i===bbCur?' on':''}" onclick="bbGoTo(${i})"></button>`).join('');}
+  else dotsEl.style.display='none';
+  count.style.display='block';count.textContent=(bbCur+1)+' / '+allSlides.length;
+  clearInterval(bbTimer);
+  const interval=curSlide&&curSlide.type==='star'?8000:4500;
+  bbTimer=setInterval(()=>{
+    const sl=buildAllSlides();bbCur=(bbCur+1)%Math.max(sl.length,1);bbRender();
+  },interval);
+}
+function buildAllSlides(){
+  const slides=[...bbSlides.map(s=>({...s,type:'photo'}))];
+  // Haftanın yıldızı: en yüksek puanlı personel
+  if(personeller.length>0){
+    const star=[...personeller].sort((a,b)=>b.puan-a.puan)[0];
+    slides.push({type:'star',person:star});
+  }
+  return slides;
+}
+function buildStarCard(p){
+  if(!p)return'';
+  const rz=getRozetler(p);
+  const rozetHtml=rz.map(r=>`<span class="star-rozet">${r}</span>`).join('');
+  return `<div class="star-card">
+    <div class="star-top">⭐ HAFTANIN PARLAYAN YILDIZI ⭐</div>
+    <div class="star-main">
+      <div class="star-avatar" style="background:${p.av};color:${p.tc}">${p.init}</div>
+      <div class="star-info">
+        <div class="star-name">${p.nm}</div>
+        <div class="star-puan">🏆 ${p.puan} Puan</div>
+      </div>
+    </div>
+    <div class="star-rozetler">${rozetHtml}</div>
+  </div>`;
+}
+function getRozetler(p){
+  const rz=[];
+  if(p.puan>=1200)rz.push('🔥 Q.U.R.U Ustası');
+  else if(p.puan>=800)rz.push('🏆 Şampiyon');
+  else if(p.puan>=500)rz.push('🏗️ ISG Uzmanı');
+  else if(p.puan>=200)rz.push('⛑️ Güvenli');
+  else rz.push('🦺 ISG Çırağı');
+  if(p.puan>=100)rz.push('⛓️ Kaldırma Uzmanı');
+  if(p.puan>=300)rz.push('🎯 Risk Avcısı');
+  if(p.puan>=500)rz.push('🔍 KKD Ustası');
+  if(p.not&&p.not.length>0)rz.push('⭐ '+p.not.substring(0,20));
+  return rz.slice(0,4);
+}
+function bbGoTo(i){bbCur=i;clearInterval(bbTimer);bbRender();}
+function bbNext(){const sl=buildAllSlides();bbCur=(bbCur+1)%Math.max(sl.length,1);clearInterval(bbTimer);bbRender();}
+function bbPrev(){const sl=buildAllSlides();bbCur=(bbCur-1+Math.max(sl.length,1))%Math.max(sl.length,1);clearInterval(bbTimer);bbRender();}
+function bbDragOver(e){e.preventDefault();document.getElementById('bb-drop').classList.add('drag');}
+function bbDragLeave(){document.getElementById('bb-drop').classList.remove('drag');}
+function bbDropFile(e){e.preventDefault();document.getElementById('bb-drop').classList.remove('drag');const fs=Array.from(e.dataTransfer.files).filter(f=>f.type.startsWith('image/'));if(fs.length)bbOkuVeEkle(fs);}
+function bbFileSelected(input){const fs=Array.from(input.files);if(fs.length)bbOkuVeEkle(fs);}
+function bbOkuVeEkle(files){
+  const caption=document.getElementById('bb-cap-inp')?.value?.trim()||'';
+  let loaded=0;
+  files.forEach(file=>{
+    const reader=new FileReader();
+    reader.onload=e=>{
+      bbSlides.push({src:e.target.result,caption,id:Date.now()+Math.random()});
+      loaded++;
+      if(loaded===files.length){lsSet('billboard',bbSlides);bbCur=bbSlides.length-1;bbRender();bbRenderListe();showOk('bb-ok');if(document.getElementById('bb-cap-inp'))document.getElementById('bb-cap-inp').value='';}
+    };reader.readAsDataURL(file);
+  });
+}
+function bbGorselEkle(){const input=document.getElementById('bb-file-inp');if(!input.files||!input.files.length){alert('Lütfen önce görsel seç.');return;}bbOkuVeEkle(Array.from(input.files));input.value='';}
+function bbSil(id){bbSlides=bbSlides.filter(s=>s.id!==id);lsSet('billboard',bbSlides);if(bbCur>=bbSlides.length)bbCur=Math.max(0,bbSlides.length-1);bbRender();bbRenderListe();}
+function bbTemizle(){if(!bbSlides.length)return;if(confirm('Tüm billboard görselleri silinecek?')){bbSlides=[];lsSet('billboard',bbSlides);bbCur=0;bbRender();bbRenderListe();}}
+function bbRenderListe(){
+  const el=document.getElementById('bb-liste');if(!el)return;
+  if(!bbSlides.length){el.innerHTML='<div style="background:var(--bg3);border-radius:9px;padding:14px;text-align:center;font-size:12px;color:var(--txt3)">Billboard boş.</div>';return;}
+  el.innerHTML=bbSlides.map((s,i)=>`<div class="vli"><img src="${s.src}" style="width:56px;height:36px;object-fit:cover;border-radius:6px;flex-shrink:0"><div class="vli-info"><div class="vli-t">${s.caption||'Görsel '+(i+1)}</div><div class="vli-m">${i===bbCur?'▶ Şu an':'Slayt '+(i+1)}</div></div><button class="del-btn" onclick="bbSil(${s.id})">Sil</button></div>`).join('');
+}
+
+// ════════════════════════════════════
+// YouTube ID
+// ════════════════════════════════════
+function getYtId(url){if(!url)return null;const m=url.match(/(?:youtu\.be\/|v=|embed\/)([a-zA-Z0-9_-]{11})/);return m?m[1]:null;}
+
+// ════════════════════════════════════
+// VİDEO
+// ════════════════════════════════════
+const CATS=['Kaldırma Operasyonları','Yaşanmış Kazalar','KKD & Ekipman Eğitimleri','60 Saniye ISG Shorts','Oryantasyon'];
+function renderVideoSections(){
+  const el=document.getElementById('video-sections');if(!el)return;
+  const av=allVids();
+  const vc=document.getElementById('vc-n');if(vc)vc.textContent=av.length;
+  let html='';
+  CATS.forEach(cat=>{
+    const cv=av.filter(v=>v.c===cat);if(!cv.length)return;
+    html+=`<div class="sec-hd"><div class="lbl">${cat}</div><button class="add-btn" onclick="go('panel')">+ Video Ekle</button></div><div class="vg">`;
+    cv.forEach(v=>{
+      const ri=av.indexOf(v);
+      html+=`<div class="vc" onclick="openVideo(${ri})"><div class="vt" style="background:linear-gradient(135deg,${v.col},${v.col}cc)"><div class="vt-grad"></div><div class="vplay"><svg width="9" height="9" viewBox="0 0 9 9"><path d="M1 1L8 4.5L1 8Z" fill="white"/></svg></div>${v.ytId?'<div class="vlink-badge">YT</div>':''}${v.localUrl&&!v.ytId?'<div class="vnew" style="background:#EAF3DE;color:#27500A">▶</div>':''}<div class="vdur">${v.d}</div></div><div class="vi"><div class="vi-t">${v.t}</div><div class="vi-m"><span class="bdg ${v.tag||'br'}">${cat.split(' ')[0]}</span></div></div></div>`;
+    });html+='</div>';
+  });
+  el.innerHTML=html||'<div style="text-align:center;padding:20px;color:var(--txt3);font-size:13px">Henüz video eklenmemiş.</div>';
+}
+let curVidIdx=-1;
+function openVideo(idx){
+  curVidIdx=idx;const v=allVids()[idx];
+  document.getElementById('m-title').textContent=v.t;document.getElementById('m-cat').textContent=v.c;document.getElementById('m-dur').textContent=v.d;
+  const ytF=document.getElementById('yt-frame'),locP=document.getElementById('local-player'),mpl=document.getElementById('mpl');
+  ytF.classList.remove('visible');locP.classList.remove('visible');mpl.style.display='none';
+  if(v.ytId){ytF.src=`https://www.youtube.com/embed/${v.ytId}?autoplay=1`;ytF.classList.add('visible');}
+  else if(v.localUrl){locP.src=v.localUrl;locP.classList.add('visible');}
+  else mpl.style.display='flex';
+  document.getElementById('vmodal').classList.add('open');
+}
+function closeVideoModal(){const ytF=document.getElementById('yt-frame'),locP=document.getElementById('local-player');ytF.src='';ytF.classList.remove('visible');locP.pause();locP.src='';locP.classList.remove('visible');document.getElementById('vmodal').classList.remove('open');}
+function closeModalOut(e){if(e.target===document.getElementById('vmodal'))closeVideoModal();}
+function modalFileLoad(input){if(!input.files||!input.files[0])return;const url=URL.createObjectURL(input.files[0]);if(curVidIdx>=0){const av=allVids();av[curVidIdx].localUrl=url;if(curVidIdx>=VID_DEF.length){vidEkstra[curVidIdx-VID_DEF.length].localUrl=url;lsSet('vidEkstra',vidEkstra.map(v=>({...v,localUrl:null})));} const locP=document.getElementById('local-player'),mpl=document.getElementById('mpl');locP.src=url;locP.classList.add('visible');mpl.style.display='none';renderVideoSections();renderArchive();}}
+function dragOver(e){e.preventDefault();document.getElementById('drop-zone').classList.add('drag');}
+function dragLeave(){document.getElementById('drop-zone').classList.remove('drag');}
+function dropFile(e){e.preventDefault();document.getElementById('drop-zone').classList.remove('drag');const f=e.dataTransfer.files[0];if(f&&f.type.startsWith('video/'))setDropFile(f);}
+function fileSelected(input){if(input.files&&input.files[0])setDropFile(input.files[0]);}
+function setDropFile(f){document.getElementById('dt').textContent='✓ '+f.name;document.getElementById('ds').textContent=(f.size/1024/1024).toFixed(1)+' MB';document.getElementById('drop-zone').classList.add('has-file');window._pFile=f;}
+function videoEkle(){
+  const t=document.getElementById('v-t').value.trim();if(!t){alert('Başlık gerekli.');return;}
+  const ytId=getYtId(document.getElementById('v-yt').value.trim());
+  const c=document.getElementById('v-c').value,d=document.getElementById('v-d').value||'—';
+  const cols={'Kaldırma Operasyonları':'#1a2e6e','Yaşanmış Kazalar':'#3a0a0a','KKD & Ekipman Eğitimleri':'#1a3a2e','60 Saniye ISG Shorts':'#1a1a2e','Oryantasyon':'#0f3460'};
+  const tags={'Kaldırma Operasyonları':'bb','Yaşanmış Kazalar':'br','KKD & Ekipman Eğitimleri':'bp','60 Saniye ISG Shorts':'bgr','Oryantasyon':'bb'};
+  if(window._pFile){
+    // Video dosyasını base64 olarak kaydet → yenilemede kaybolmaz
+    const reader=new FileReader();
+    reader.onload=e=>{
+      const entry={t,c,d,col:cols[c]||'#1a1a2e',tag:tags[c]||'br',ytId:null,localB64:e.target.result,localUrl:e.target.result};
+      vidEkstra.push(entry);
+      lsSet('vidEkstra',vidEkstra.map(v=>({...v,localUrl:null}))); // localUrl geçici, localB64 kalıcı
+      lsSet('vidEkstraB64',vidEkstra.map(v=>({...v}))); // tam kayıt
+      _resetVideoForm();showOk('video-ok');renderArchive();renderVideoSections();
+    };
+    reader.readAsDataURL(window._pFile);
+    window._pFile=null;
+  } else {
+    const entry={t,c,d,col:cols[c]||'#1a1a2e',tag:tags[c]||'br',ytId,localUrl:null,localB64:null};
+    vidEkstra.push(entry);
+    lsSet('vidEkstraB64',vidEkstra.map(v=>({...v})));
+    lsSet('vidEkstra',vidEkstra.map(v=>({...v,localUrl:null})));
+    _resetVideoForm();showOk('video-ok');renderArchive();renderVideoSections();
+  }
+}
+function _resetVideoForm(){
+  document.getElementById('v-t').value='';document.getElementById('v-d').value='';document.getElementById('v-yt').value='';
+  document.getElementById('drop-zone').classList.remove('has-file');document.getElementById('dt').textContent='Videoyu Sürükle Bırak veya Tıkla';document.getElementById('ds').textContent='MP4, MOV, AVI';
+}
+function videoSil(i){if(i<VID_DEF.length){alert('Varsayılan videolar silinemez.');return;}if(confirm('Bu video silinsin mi?')){vidEkstra.splice(i-VID_DEF.length,1);lsSet('vidEkstra',vidEkstra.map(v=>({...v,localUrl:null})));lsSet('vidEkstraB64',vidEkstra.map(v=>({...v})));renderArchive();renderVideoSections();}}
+function renderArchive(){
+  const el=document.getElementById('v-archive'),cnt=document.getElementById('arc-cnt'),av=allVids();
+  if(cnt)cnt.textContent=av.length+' video';const vcn=document.getElementById('vc-n');if(vcn)vcn.textContent=av.length;
+  if(!el)return;el.innerHTML='';
+  av.forEach((v,i)=>{const d=document.createElement('div');d.className='vli';const src=v.ytId?'YT':v.localUrl?'▶':'—';const srcC=v.ytId?'#FF0000':v.localUrl?'#27500A':'#888';const canDel=i>=VID_DEF.length;d.innerHTML=`<div class="vli-th" style="background:${v.col}"><svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 1L9 5L2 9Z" fill="white"/></svg></div><div class="vli-info"><div class="vli-t">${v.t}</div><div class="vli-m">${v.c} · ${v.d} · <span style="color:${srcC};font-weight:600">${src}</span></div></div>${canDel?`<button class="del-btn" onclick="videoSil(${i})">Sil</button>`:''}`;el.appendChild(d);});
+}
+
+// ════════════════════════════════════
+// DUYURU
+// ════════════════════════════════════
+function duyuruYayinla(){
+  const m=document.getElementById('d-metin').value.trim(),o=document.getElementById('d-onemi').value;
+  if(!m){alert('Metin gerekli.');return;}
+  const n=new Date();
+  duyurular.unshift({m,o,zaman:String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0'),tarih:n.getDate()+'.'+(n.getMonth()+1)+'.'+n.getFullYear(),id:Date.now()});
+  lsSet('duyurular',duyurular);renderDuyurular();
+  const bc=o==='acil'?'var(--red)':o==='onemli'?'#BA7517':'#378ADD';
+  const bg=o==='acil'?'#FCEBEB':o==='onemli'?'#FAEEDA':'var(--bg3)';
+  const tc=o==='acil'?'#A32D2D':o==='onemli'?'#633806':'var(--txt)';
+  const ad=document.getElementById('ana-duyuru');
+  if(ad)ad.innerHTML=`<div style="background:${bg};border-radius:10px;padding:10px 13px;font-size:12px;color:${tc};line-height:1.65;border-left:3px solid ${bc}"><div style="font-size:10px;color:var(--txt3);margin-bottom:4px;font-family:monospace">${duyurular[0].tarih} ${duyurular[0].zaman}</div>${m}</div>`;
+  document.getElementById('d-metin').value='';showOk('duyuru-ok');
+}
+function renderDuyurular(){
+  const el=document.getElementById('duyuru-list');if(!el)return;
+  if(!duyurular.length){el.innerHTML='<div style="background:var(--bg3);border-radius:10px;padding:20px;text-align:center;color:var(--txt3);font-size:13px">Henüz duyuru yok.</div>';return;}
+  const lbls={normal:'Bilgi',onemli:'Önemli',acil:'Acil'};
+  const lC={normal:'#0C447C',onemli:'#633806',acil:'#A32D2D'};
+  const lB={normal:'#E6F1FB',onemli:'#FAEEDA',acil:'#FCEBEB'};
+  el.innerHTML=duyurular.map(d=>`<div class="duyuru-card ${d.o}"><div class="duyuru-hd"><span style="background:${lB[d.o]};color:${lC[d.o]};font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px">${lbls[d.o]}</span><span class="duyuru-time">${d.tarih} ${d.zaman}</span><button onclick="duyuruSil(${d.id})" style="background:none;border:none;cursor:pointer;font-size:11px;color:var(--txt3);padding:0 4px">Kaldır</button></div><div class="duyuru-txt">${d.m}</div></div>`).join('');
+}
+function duyuruSil(id){duyurular=duyurular.filter(d=>d.id!==id);lsSet('duyurular',duyurular);renderDuyurular();}
+
+// ════════════════════════════════════
+// EKİPMAN
+// ════════════════════════════════════
+const EQ=[
+  {nm:"Zincir Sapanlar",dot:"#E8402A",bg:"#FCEBEB",tarihce:"Çelik zincir sapanlar 19. yüzyılın sonlarında sanayi devrimiyle geliştirildi. EN 818 standardına göre üretilir.",teknik:"Sınıf 8 (800 N/mm²) ve Sınıf 10 (1000 N/mm²). Sınıf 10 aynı yük için daha ince ve hafiftir.",wll:[["Çap","Sınıf 8 WLL","Sınıf 10 WLL"],["6 mm","1.12 ton","1.4 ton"],["8 mm","2.00 ton","2.5 ton"],["10 mm","3.15 ton","4.0 ton"],["13 mm","5.30 ton","6.7 ton"],["16 mm","8.00 ton","10.0 ton"]],riskler:"• Çalışma Yük Sınırı (WLL) aşımı — kopma riski\n• Hasarlı halka kullanımı\n• Açı faktörü hesabını yapmamak\n• Asit / alkali / yüksek sıcaklık teması",op:"Vinç operasyonları, ağır makine kaldırma, boru demeti taşıma",muayene:"Her kullanım öncesi: deformasyon, çatlak, korozyon. 6 ayda uzman muayenesi. Çap %10 azalmışsa → imha."},
+  {nm:"Halat Sapanlar",dot:"#378ADD",bg:"#E6F1FB",tarihce:"Tel halat sapanlar 1830'larda geliştirildi. EN 13414 standardı.",teknik:"Çelik halat yüksek sıcaklığa dayanıklı. Fiber çekirdekli tip daha esnek.",wll:[["Çap","WLL (Tek Düz)"],["8 mm","0.8 ton"],["11 mm","1.5 ton"],["14 mm","2.5 ton"],["18 mm","4.0 ton"]],riskler:"• Bükülme hasarı\n• Korozyon\n• UV bozunması\n• Keskin köşe teması",op:"Genel kaldırma, gemi yükleme, boru hattı montajı",muayene:"6 çap uzunluğunda 6+ tel kırığı = kullanım dışı. Çap %7 altına = imha."},
+  {nm:"Sentetik Sapanlar",dot:"#1D9E75",bg:"#E1F5EE",tarihce:"Polyester ve naylon liflerle 1950'lerde geliştirildi. EN 1492 standardı.",teknik:"Renk kodu Çalışma Yük Sınırını gösterir. Polyester UV ve kimyasal direnci en yüksek.",wll:[["Renk","WLL"],["Mor","1 ton"],["Yeşil","2 ton"],["Sarı","3 ton"],["Gri","4 ton"],["Kırmızı","5 ton"],["Kahve","6–8 ton"],["Mavi","10 ton"],["Turuncu","12 ton"],["Beyaz","20+ ton"]],riskler:"• Keskin köşe — fiberleri keser\n• Kimyasal temas\n• UV bozunması\n• 100°C üzeri sıcaklık",op:"Hassas yüzey kaldırma, boya kaplı yükler, alüminyum konstrüksiyon",muayene:"Kesik, yanma, renk değişimi = imha. Islak bez testi: elyaf çözülüyorsa → imha."},
+  {nm:"Kancalar",dot:"#BA7517",bg:"#FAEEDA",tarihce:"Modern emniyet kilidi 20. yüzyılda geliştirildi. EN 1677.",teknik:"3 tür: Yük Kancası, Emniyet Kancası (çift kilit), Fırdöndü Kanca.",wll:[["Kanca Türü","WLL Aralığı"],["Standart","0.5–150 ton"],["Emniyet","0.5–100 ton"],["Fırdöndü","0.5–80 ton"]],riskler:"• Emniyet dili kontrol edilmemesi\n• Yan yükleme\n• Aşırı açılma\n• Boyun aşınması",op:"Tüm kaldırma ve taşıma operasyonları",muayene:"Her kullanım öncesi emniyet dili testi. Ağız açıklığı %10 fazlaysa → imha."},
+  {nm:"Emniyet Kemeri + Yoyo",dot:"#534AB7",bg:"#EEEDFE",tarihce:"Modern tam vücut kemeri 1950'lerin uçak endüstrisinden. EN 361 / EN 360.",teknik:"Arka D-halkası birincil bağlantı. Yoyo düşmeyi 0.6 m içinde durdurur.",wll:[["Ekipman","Sınır"],["Tam vücut kemeri","Maks. 140 kg"],["Yoyo (SRL)","Sistem 150 kg"]],riskler:"• Yanlış bağlantı noktası\n• Sarkık kayış\n• Düşme sonrası kullanmaya devam — YASAK\n• UV / kimyasal bozunma",op:"2 metrenin üzerinde her çalışma: iskele, çatı, tank üstü",muayene:"Düşme sonrası KULLANIM DIŞI — görsel hasar olmasa bile imha."},
+  {nm:"KKD Seti",dot:"#639922",bg:"#EAF3DE",tarihce:"KKD standartları 1970'lerin mevzuatıyla şekillendi. Türkiye: İSGGM.",teknik:"Kask EN 397, Gözlük EN 166, Eldiven EN 388/374, Bot EN ISO 20345 S3.",wll:[["KKD","Kullanım Ömrü"],["Kask","3–5 yıl (darbe sonrası hemen)"],["Gözlük","2–3 yıl"],["Kimyasal eldiven","6 ay–1 yıl"],["Emniyet botu","1–2 yıl"]],riskler:"• Süresi dolmuş KKD\n• Beden uyumsuzluğu\n• Hasar görmüş KKD\n• Sahte / sertifikasız ürün",op:"Her sahada zorunlu: kask + gözlük + eldiven + emniyet botu",muayene:"Kask: çatlak = imha. Eldiven: şişirme testi. Bot: taban ve çelik burun."},
+  {nm:"Kimyasal Ekipmanlar",dot:"#D85A30",bg:"#FAECE7",tarihce:"Kimyasal güvenlik ekipmanları 20. yüzyıl başında. GHS ve REACH.",teknik:"Döküntü kiti, kimyasal dayanımlı eldiven, Güvenlik Bilgi Forması (SDS).",wll:[["Kimyasal Sınıf","Önerilen Eldiven"],["Asitler","Neopren veya PVC"],["Alkaliler","Neopren veya Nitril"],["Solventler","Nitril veya Butyl"]],riskler:"• SDS okunmadan çalışmak\n• Yetersiz havalandırma\n• Uyumsuz depolama\n• Yanlış eldiven",op:"Tüm kimyasal taşıma, depolama ve döküntü müdahalesi",muayene:"Döküntü kiti 6 ayda bir. SDS erişilebilirliği aylık."},
+  {nm:"Forklift / Transpalet",dot:"#888780",bg:"#F1EFE8",tarihce:"İlk motorlu forklift 1917 Clark Equipment. 6331 İSG Kanunu belge zorunlu.",teknik:"Karşı ağırlıklı, depo tipi, yana yüklü. LPG/dizel/elektrik. 1–50 ton.",wll:[["Parametre","Açıklama"],["Nominal kapasite","Kapasite plakasındaki değer"],["Yük merkezi","Genellikle 500 mm"],["Zemin kapasitesi","Forklift + yük toplamını karşılamalı"]],riskler:"• Kapasite plakasını okumamak\n• Yükü yüksekte taşımak\n• Eğimde yanlış manevra\n• Yaya kesişimi",op:"Depo içi taşıma, konteyner yükleme, SOCAR sahası lojistiği",muayene:"Günlük: fork, lastik, fren, korna, ışık, kemer, akü, hidrolik."},
+  {nm:"Vinçler ve Kaldırma Makineleri",dot:"#1a3a6e",bg:"#E6F1FB",tarihce:"İlk sanayi vinci 19. yüzyıl buhar gücüyle. TS EN 14439, TS EN 15011.",teknik:"Mobil vinç, köprülü vinç, portal vinç, palanga. GÇY plakada zorunlu.",wll:[["Parametre","Açıklama"],["Güvenli Çalışma Yükü (GÇY)","Plakada yazmalı"],["Bom uzunluğu","Uzadıkça kapasite düşer"],["Rüzgar hızı","Max 9–12 m/s (mobil)"]],riskler:"• Kapasite tablosunu kullanmamak\n• Kaldırma planı yapmadan operasyon\n• Stabilizatör zemini hesapsız\n• Rüzgarlı havada devam",op:"Ağır ekipman montajı, reaktör montajı, boru döşeme",muayene:"Yıllık akredite kurum muayenesi zorunlu. Günlük: kanca, halat, fren, limit switch."}
+];
+function renderEQ(){
+  const c=document.getElementById('eq-list');if(!c)return;c.innerHTML='';
+  EQ.forEach((e,i)=>{
+    const wrap=document.createElement('div');wrap.className='eq-item';
+    wrap.innerHTML=`<div class="eq-hd" onclick="toggleEQ(${i})"><div class="eq-dot-wrap" style="background:${e.bg}"><div style="width:14px;height:14px;border-radius:50%;background:${e.dot}"></div></div><div class="eq-nm">${e.nm}</div><span class="bdg br" style="font-size:10px">Risk</span><span class="bdg bgr" style="font-size:10px">Muayene</span><span class="eq-arrow" id="ea${i}">›</span></div><div class="eq-detail" id="ed${i}"></div>`;
+    c.appendChild(wrap);
+  });
+}
+function toggleEQ(i){
+  const d=document.getElementById('ed'+i),a=document.getElementById('ea'+i);
+  if(d.classList.contains('open')){d.classList.remove('open');a.style.transform='';return;}
+  document.querySelectorAll('.eq-detail').forEach(x=>x.classList.remove('open'));
+  document.querySelectorAll('.eq-arrow').forEach(x=>x.style.transform='');
+  a.style.transform='rotate(90deg)';
+  const e=EQ[i];
+  const note=eqNotes[e.nm]?`<div class="eq-sec">Ek Notlar</div><div class="eq-ok" style="white-space:pre-line">${eqNotes[e.nm]}</div>`:'';
+  const tblLbl=e.nm==='KKD Seti'?'Kullanım Ömrü':e.nm.includes('Forklift')||e.nm.includes('Vinç')?'Kapasite Parametreleri':'Çalışma Yük Sınırı (WLL) Tablosu';
+  d.innerHTML=`<div class="eq-sec">Tarihçe</div><div class="eq-p">${e.tarihce}</div><div class="eq-sec">Teknik Özellikler</div><div class="eq-p">${e.teknik}</div><div class="eq-sec">${tblLbl}</div><table class="tbl"><thead><tr>${e.wll[0].map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${e.wll.slice(1).map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table><div class="eq-sec">Riskler ve Tehlikeler</div><div class="eq-warn">${e.riskler.replace(/\n/g,'<br>')}</div><div class="eq-sec">Kullanıldığı Operasyonlar</div><div class="eq-ok">${e.op}</div><div class="eq-sec">Muayene ve İmha Kriterleri</div><div class="eq-p">${e.muayene}</div>${note}<div style="margin-top:10px;display:flex;gap:7px"><button class="add-btn" onclick="quickNote(${i})">+ Not Ekle</button><button class="add-btn" onclick="yazdir('ekipman',${i})">🖨️ Yazdır</button></div>`;
+  d.classList.add('open');
+}
+function quickNote(i){const n=prompt(EQ[i].nm+' kartına not ekle:');if(n&&n.trim()){eqNotes[EQ[i].nm]=(eqNotes[EQ[i].nm]?eqNotes[EQ[i].nm]+'\n':'')+n.trim();lsSet('eqNotes',eqNotes);toggleEQ(i);toggleEQ(i);}}
+function eqNotEkle(){const eq=document.getElementById('eq-s').value,n=document.getElementById('eq-n').value.trim();if(!n){alert('Not gerekli.');return;}eqNotes[eq]=(eqNotes[eq]?eqNotes[eq]+'\n':'')+n;lsSet('eqNotes',eqNotes);document.getElementById('eq-n').value='';showOk('eq-ok');}
+
+// ════════════════════════════════════
+// ISG TAKVİM
+// ════════════════════════════════════
+function takEkle(){
+  const tarih=document.getElementById('tak-tarih').value;
+  const tur=document.getElementById('tak-tur').value;
+  const baslik=document.getElementById('tak-baslik').value.trim();
+  if(!tarih||!baslik){alert('Tarih ve başlık gerekli.');return;}
+  takvimler.push({tarih,tur,baslik,id:Date.now()});
+  takvimler.sort((a,b)=>new Date(a.tarih)-new Date(b.tarih));
+  lsSet('takvim',takvimler);
+  document.getElementById('tak-tarih').value='';document.getElementById('tak-baslik').value='';
+  showOk('tak-ok');renderTakvim();
+}
+function renderTakvim(){
+  const el=document.getElementById('takvim-list');if(!el)return;
+  const bugun=new Date();
+  if(!takvimler.length){el.innerHTML='<div style="background:var(--bg3);border-radius:10px;padding:20px;text-align:center;color:var(--txt3);font-size:13px">Henüz etkinlik eklenmemiş.</div>';return;}
+  const turRenk={tatbikat:['#FCEBEB','#A32D2D'],muayene:['#E6F1FB','#0C447C'],egitim:['#EAF3DE','#27500A'],denetim:['#FAEEDA','#633806'],toplanti:['#EEEDFE','#3C3489']};
+  const turLbl={tatbikat:'🚒 Tatbikat',muayene:'🔧 Muayene',egitim:'📚 Eğitim',denetim:'🔍 Denetim',toplanti:'👥 Toplantı'};
+  el.innerHTML=takvimler.map(t=>{
+    const tarihD=new Date(t.tarih);
+    const gun=Math.ceil((tarihD-bugun)/(1000*60*60*24));
+    const gecti=gun<0;
+    const [bg,tc]=turRenk[t.tur]||['#F1EFE8','#444441'];
+    const ay=['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'][tarihD.getMonth()];
+    const kalan=gecti?`${Math.abs(gun)} gün önce`:gun===0?'Bugün!':gun+' gün sonra';
+    return `<div class="takvim-item" style="${gecti?'opacity:.6':''}"><div class="takvim-tarih"><div class="takvim-gun">${tarihD.getDate()}</div><div class="takvim-ay">${ay}</div></div><div class="takvim-bilgi"><div class="takvim-baslik">${t.baslik}</div><div style="display:flex;align-items:center;gap:6px;margin-top:4px"><span class="takvim-tur-badge" style="background:${bg};color:${tc}">${turLbl[t.tur]||t.tur}</span><span style="font-size:10px;color:var(--txt3)">${kalan}</span></div></div><button class="del-btn" onclick="takSil(${t.id})">Sil</button></div>`;
+  }).join('');
+}
+function takSil(id){takvimler=takvimler.filter(t=>t.id!==id);lsSet('takvim',takvimler);renderTakvim();}
+
+// ════════════════════════════════════
+// YAZDIRMA
+// ════════════════════════════════════
+function yazdir(tip,idx){
+  let html='<html><head><meta charset="UTF-8"><title>Q.U.R.U TV Yazdır</title><style>body{font-family:Arial,sans-serif;padding:20px;font-size:12px;color:#222}h1{color:#E8402A;margin-bottom:8px}h2{color:#1a1a2e;margin:16px 0 6px;font-size:14px}table{border-collapse:collapse;width:100%;margin:8px 0}td,th{border:1px solid #ddd;padding:5px 8px;text-align:left}th{background:#f5f3ef;font-weight:600}.warn{background:#FCEBEB;color:#A32D2D;padding:8px;border-radius:6px;margin:4px 0}.ok{background:#EAF3DE;color:#27500A;padding:8px;border-radius:6px;margin:4px 0}@media print{button{display:none}}</style></head><body>';
+  if(tip==='ekipman'){
+    if(idx!==undefined){const e=EQ[idx];html+=`<h1>Q.U.R.U TV — ${e.nm}</h1><p style="color:#888;margin-bottom:12px">HAREKET PROJE · SOCAR Sahası · ${new Date().toLocaleDateString('tr-TR')}</p><h2>Teknik Özellikler</h2><p>${e.teknik}</p><h2>${e.wll[0].length>2?'Çalışma Yük Sınırı (WLL) Tablosu':'Kapasite Tablosu'}</h2><table><tr>${e.wll[0].map(h=>`<th>${h}</th>`).join('')}</tr>${e.wll.slice(1).map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</table><h2>Riskler ve Tehlikeler</h2><div class="warn">${e.riskler.replace(/\n/g,'<br>')}</div><h2>Muayene ve İmha Kriterleri</h2><p>${e.muayene}</p>${eqNotes[e.nm]?`<h2>Ek Notlar</h2><div class="ok" style="white-space:pre-line">${eqNotes[e.nm]}</div>`:''}`;}
+    else{html+=`<h1>Q.U.R.U TV — Tüm Ekipman Kartları</h1><p style="color:#888;margin-bottom:12px">HAREKET PROJE · ${new Date().toLocaleDateString('tr-TR')}</p>`;EQ.forEach(e=>{html+=`<h2 style="border-top:2px solid #E8402A;padding-top:12px;margin-top:20px">${e.nm}</h2><p>${e.teknik}</p><h3 style="font-size:12px;margin:8px 0 4px">Riskler</h3><div class="warn">${e.riskler.replace(/\n/g,'<br>')}</div><p style="margin-top:6px"><strong>Muayene:</strong> ${e.muayene}</p>${eqNotes[e.nm]?`<div class="ok" style="margin-top:6px;white-space:pre-line"><strong>Not:</strong> ${eqNotes[e.nm]}</div>`:''}`});}
+  }
+  html+='<br><button onclick="window.print()" style="background:#E8402A;color:white;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;margin-right:8px">Yazdır</button><button onclick="window.close()" style="background:#f5f3ef;color:#222;border:1px solid #ddd;padding:8px 16px;border-radius:6px;cursor:pointer">Kapat</button></body></html>';
+  const w=window.open('','_blank','width=800,height=600');w.document.write(html);w.document.close();
+}
+
+// ════════════════════════════════════
+// PUAN
+// ════════════════════════════════════
+function renderLB(){
+  const el=document.getElementById('lb-wrap');if(!el)return;
+  const medals=['🥇','🥈','🥉'];
+  const s=[...personeller].sort((a,b)=>b.puan-a.puan);
+  const mx=s[0]?.puan||1;
+  el.innerHTML=s.map((p,i)=>{
+    const rz=getRozetler(p);
+    const medalHtml=i<3?`<span style="font-size:16px">${medals[i]}</span>`:`<span style="font-size:12px;color:var(--txt3);width:22px;text-align:center;display:inline-block">${i+1}</span>`;
+    return `<div class="lb-row">
+      <div class="lb-rk">${medalHtml}</div>
+      <div class="lb-av" style="background:${p.av};color:${p.tc}">${p.init}</div>
+      <div style="flex:1">
+        <div class="lb-nm">${p.nm}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:3px;margin-top:3px">${rz.slice(0,3).map(r=>`<span style="font-size:9px;font-weight:500;padding:1px 6px;border-radius:20px;background:var(--bg3);color:var(--txt3)">${r}</span>`).join('')}</div>
+        ${p.not?`<div class="lb-not">${p.not}</div>`:''}
+      </div>
+      <div class="lb-bw"><div class="lb-bar" style="width:${Math.round(p.puan/mx*100)}%;background:${p.bc}"></div></div>
+      <div class="lb-pt">${p.puan}</div>
+    </div>`;
+  }).join('');
+}
+function personelEkle(){
+  const n=document.getElementById('p-n').value.trim(),p=parseInt(document.getElementById('p-p').value)||0,not=document.getElementById('p-not').value.trim();
+  if(!n){alert('Ad gerekli.');return;}
+  const init=n.split(' ').map(x=>x[0]).join('').toUpperCase().slice(0,2);
+  const colors=[['#FAEEDA','#633806'],['#E6F1FB','#0C447C'],['#EAF3DE','#27500A'],['#EEEDFE','#3C3489'],['#E1F5EE','#085041']];
+  const [av,tc]=colors[personeller.length%colors.length];
+  personeller.push({nm:n,init,puan:p,av,tc,bc:'#e8402a',not,id:Date.now()});
+  lsSet('personeller',personeller);renderLB();renderPersonelListe();
+  document.getElementById('p-n').value='';document.getElementById('p-p').value='';document.getElementById('p-not').value='';
+  showOk('personel-ok');
+}
+function personelSil(id){if(confirm('Bu personel silinsin mi?')){personeller=personeller.filter(p=>p.id!==id);lsSet('personeller',personeller);renderLB();renderPersonelListe();}}
+function personelPuanGuncelle(id){
+  const yeniPuan=parseInt(prompt('Yeni puan:')||'');
+  if(isNaN(yeniPuan))return;
+  const p=personeller.find(x=>x.id===id);if(p){p.puan=yeniPuan;lsSet('personeller',personeller);renderLB();renderPersonelListe();}
+}
+function renderPersonelListe(){
+  const el=document.getElementById('personel-liste');if(!el)return;
+  if(!personeller.length){el.innerHTML='<div style="background:var(--bg3);border-radius:9px;padding:14px;text-align:center;font-size:12px;color:var(--txt3)">Henüz personel eklenmemiş.</div>';return;}
+  el.innerHTML=personeller.map(p=>`<div class="vli"><div class="lb-av" style="background:${p.av};color:${p.tc};flex-shrink:0;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700">${p.init}</div><div class="vli-info"><div class="vli-t">${p.nm}</div><div class="vli-m">${p.puan} puan${p.not?' · '+p.not:''}</div></div><button class="edit-btn" onclick="personelPuanGuncelle(${p.id})">Puan</button><button class="del-btn" onclick="personelSil(${p.id})">Sil</button></div>`).join('');
+}
+function sozGuncelle(){const s=document.getElementById('soz-inp').value.trim();if(!s){alert('Söz gerekli.');return;}sozTxt='"'+s+'"';lsSet('soz',sozTxt);document.querySelectorAll('.soz-txt,#ana-soz,#soz-disp').forEach(el=>{if(el)el.textContent=sozTxt;});document.getElementById('soz-inp').value='';showOk('soz-ok');}
+
+// ════════════════════════════════════
+// OYUNLAR
+// ════════════════════════════════════
+const GAMES=[
+  {id:'quiz',title:'Video Quizi',desc:'Soruları cevapla, puan kazan.',pt:'+10 pt/soru',dif:'Kolay',difBg:'#EAF3DE',difC:'#27500A',acc:'#E8402A',ico:'❓',ibg:'#FCEBEB'},
+  {id:'senaryo',title:'Kaza Senaryosu',desc:'Sen karar ver, Q.U.R.U açıklar.',pt:'+25 pt/karar',dif:'Zor',difBg:'#FCEBEB',difC:'#A32D2D',acc:'#BA7517',ico:'⚡',ibg:'#FAEEDA'},
+  {id:'tabu',title:'Q.U.R.U ile Anlat Bakalım',desc:'Yasaklı kelimeler olmadan ISG terimini anlat!',pt:'+20 pt/kart',dif:'Takım',difBg:'#E1F5EE',difC:'#085041',acc:'#1D9E75',ico:'🃏',ibg:'#E1F5EE'},
+  {id:'etan',title:'Ekipman Tanı',desc:'Tanımı oku, 20 saniyede doğru ekipmanı bul.',pt:'+15 pt/soru',dif:'Orta',difBg:'#FAEEDA',difC:'#633806',acc:'#185FA5',ico:'🔍',ibg:'#E6F1FB'},
+  {id:'dy',title:'Doğru mu? Yanlış mı?',desc:'Hızlı karar ver, 3 arka arkaya doğru = +5 bonus.',pt:'+5 pt+bonus',dif:'Hızlı',difBg:'#EAF3DE',difC:'#27500A',acc:'#534AB7',ico:'✅',ibg:'#EEEDFE'},
+  {id:'samp',title:'Haftalık Şampiyona',desc:'10 soru, 25 saniye geri sayım, liderlik tablosu.',pt:'+100 pt',dif:'Şampiyon',difBg:'#EEEDFE',difC:'#3C3489',acc:'#E8402A',ico:'🏆',ibg:'#FAECE7'},
+  {id:'bingo',title:'ISG Bingo!',desc:'5×5 ızgara — ISG terimlerini bul, satırı tamamla!',pt:'+30 pt/satır',dif:'Eğlenceli',difBg:'#E1F5EE',difC:'#085041',acc:'#1D9E75',ico:'🎯',ibg:'#E1F5EE'},
+  {id:'zincir',title:'Kaza Zinciri',desc:'Kazanın nedenlerini doğru sıraya diz.',pt:'+40 pt',dif:'Analitik',difBg:'#FAEEDA',difC:'#633806',acc:'#BA7517',ico:'🔗',ibg:'#FAEEDA'},
+  {id:'yarisi',title:'ISG Hızlı Ateş',desc:'30 saniyede mümkün olduğunca çok doğru cevap!',pt:'+3 pt/cevap',dif:'Süper Hızlı',difBg:'#FCEBEB',difC:'#A32D2D',acc:'#E8402A',ico:'🔥',ibg:'#FCEBEB'},
+];
+function renderGames(){
+  const el=document.getElementById('game-grid');if(!el)return;
+  el.innerHTML=GAMES.map(g=>`<div class="gc" onclick="gameClick('${g.id}','${g.title}')"><div class="gc-acc" style="background:${g.acc}"></div><div class="gc-ico" style="background:${g.ibg}">${g.ico}</div><div class="gc-t">${g.title}</div><div class="gc-d">${g.desc}</div><div class="gc-ft"><span class="gc-pt">${g.pt}</span><span class="gc-dif" style="background:${g.difBg};color:${g.difC}">${g.dif}</span></div></div>`).join('');
+}
+function gameClick(id,title){
+  if(['quiz','senaryo','tabu'].includes(id))go(id);
+  else if(id==='etan')openOyunModal(title,buildEtanHTML());
+  else if(id==='dy')openOyunModal(title,buildDYHTML());
+  else if(id==='samp')openOyunModal(title,buildSampHTML());
+  else if(id==='bingo')openOyunModal(title,buildBingoHTML());
+  else if(id==='zincir')openOyunModal(title,buildZincirHTML());
+  else if(id==='yarisi')openOyunModal(title,buildYarisiHTML());
+}
+// ════════════════════════════════════
+// ISG BİNGO
+// ════════════════════════════════════
+function buildBingoHTML(){
+  const kelimeler=['WLL','Sapan','Yoyo','Kanca','KKD','Baret','SDS','Vinç','Açı','Forklift','Risk','Tatbikat','İzin','Sinyalci','Emniyet','Muayene','Kaldırma','Döküntü','Tahliye','Tulum','Eldiven','Kask','Halat','Zincir','ISG'];
+  const karisik=[...kelimeler].sort(()=>Math.random()-.5);
+  const isaretli=new Set();
+  let bingoSayi=0;
+
+  function kareHtml(){
+    return `<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-bottom:12px">
+      ${karisik.map((k,i)=>`<div id="bk${i}" onclick="bingoISaretle(${i})" style="padding:6px 2px;background:var(--bg3);border-radius:7px;font-size:10px;font-weight:600;color:var(--txt3);text-align:center;cursor:pointer;border:.5px solid var(--border);transition:all .15s;user-select:none" title="${k}">${k}</div>`).join('')}
+    </div>`;
+  }
+  window._bingo={karisik,isaretli,bingoSayi};
+  return `<div style="font-size:11px;color:var(--txt3);margin-bottom:10px">Duyduğun veya gördüğün ISG terimini tıkla. 5 ardışık kare = BİNGO! +30 puan</div>
+    ${kareHtml()}
+    <div id="bingo-skor" style="text-align:center;font-size:14px;font-weight:600;color:var(--txt)">Bingo: 0 | İşaretli: 0</div>`;
+}
+window.bingoISaretle=function(i){
+  const {karisik,isaretli}=window._bingo;
+  if(isaretli.has(i)){isaretli.delete(i);const el=document.getElementById('bk'+i);if(el){el.style.background='var(--bg3)';el.style.color='var(--txt3)';}}
+  else{isaretli.add(i);const el=document.getElementById('bk'+i);if(el){el.style.background='#1a3a6e';el.style.color='#fff';el.style.borderColor='#1a3a6e';}}
+  // Satır/sütun/çapraz kontrol
+  let bingo=0;
+  const rows=[[0,1,2,3,4],[5,6,7,8,9],[10,11,12,13,14],[15,16,17,18,19],[20,21,22,23,24]];
+  const cols=[[0,5,10,15,20],[1,6,11,16,21],[2,7,12,17,22],[3,8,13,18,23],[4,9,14,19,24]];
+  const diags=[[0,6,12,18,24],[4,8,12,16,20]];
+  [...rows,...cols,...diags].forEach(line=>{if(line.every(x=>isaretli.has(x)))bingo++;});
+  window._bingo.bingoSayi=bingo;
+  const sc=document.getElementById('bingo-skor');
+  if(sc){sc.textContent=`Bingo: ${bingo} (+${bingo*30} pt) | İşaretli: ${isaretli.size}`;sc.style.color=bingo>0?'#27500A':'var(--txt)';}
+  if(bingo>0)sc.textContent='🎉 BİNGO! '+bingo+'x | +'+bingo*30+' puan!';
+};
+
+// ════════════════════════════════════
+// KAZA ZİNCİRİ
+// ════════════════════════════════════
+function buildZincirHTML(){
+  const senaryolar=[
+    {baslik:'Sapan Kopma Kazası',adimlar:['WLL hesabı yapılmadı','Hasarlı sapan kullanıldı','Güvenlik çevresi kurulmadı','Kaldırma başlatıldı','Sapan koptu','Yük düştü — personel yaralandı'],dogru_sira:true},
+    {baslik:'Kimyasal Döküntü Kazası',adimlar:['SDS okunmadı','Uygunsuz eldiven kullanıldı','Döküntü oluştu','İlkyardım gecikmesi','Cilt yanığı — hastane'],dogru_sira:true},
+  ];
+  const sen=senaryolar[Math.floor(Math.random()*senaryolar.length)];
+  const karisik=[...sen.adimlar].sort(()=>Math.random()-.5);
+  window._zincir={adimlar:sen.adimlar,karisik:[...karisik],siralama:[...karisik]};
+  function siraliHtml(){
+    return window._zincir.siralama.map((a,i)=>`
+      <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--bg3);border-radius:8px;border:.5px solid var(--border);margin-bottom:5px">
+        <span style="font-size:11px;color:var(--txt3);font-family:monospace;flex-shrink:0">${i+1}</span>
+        <span style="font-size:12px;color:var(--txt);flex:1">${a}</span>
+        ${i>0?`<button onclick="zincirYukari(${i})" style="background:none;border:.5px solid var(--border);border-radius:5px;cursor:pointer;padding:2px 6px;font-size:12px">↑</button>`:''}
+        ${i<window._zincir.siralama.length-1?`<button onclick="zincirAsagi(${i})" style="background:none;border:.5px solid var(--border);border-radius:5px;cursor:pointer;padding:2px 6px;font-size:12px">↓</button>`:''}
+      </div>`).join('');
+  }
+  window._zincirRender=function(){document.getElementById('zincir-liste').innerHTML=siraliHtml();};
+  return `<div style="font-size:12px;font-weight:600;color:var(--txt);margin-bottom:10px">📋 ${sen.baslik}</div>
+    <div style="font-size:11px;color:var(--txt3);margin-bottom:10px">Kaza zincirini doğru sıraya diz — ↑↓ ile kaydır, sonra kontrol et.</div>
+    <div id="zincir-liste">${siraliHtml()}</div>
+    <button class="btn dk" style="margin-top:10px;margin-bottom:0" onclick="zincirKontrol()">Sıralamayı Kontrol Et →</button>
+    <div id="zincir-res" style="display:none;margin-top:10px;padding:10px;border-radius:9px;font-size:12px;line-height:1.6"></div>`;
+}
+window.zincirYukari=function(i){const s=window._zincir.siralama;if(i<=0)return;[s[i-1],s[i]]=[s[i],s[i-1]];window._zincirRender();};
+window.zincirAsagi=function(i){const s=window._zincir.siralama;if(i>=s.length-1)return;[s[i],s[i+1]]=[s[i+1],s[i]];window._zincirRender();};
+window.zincirKontrol=function(){
+  const {adimlar,siralama}=window._zincir;
+  const dogru=adimlar.every((a,i)=>a===siralama[i]);
+  const r=document.getElementById('zincir-res');r.style.display='block';
+  r.style.background=dogru?'#EAF3DE':'#FCEBEB';r.style.color=dogru?'#27500A':'#A32D2D';
+  if(dogru){r.textContent='✅ Mükemmel! Kaza zincirini doğru analiz ettin. +40 puan!';}
+  else{r.innerHTML='❌ Sıralama hatalı. Doğru sıra:<br><br>'+adimlar.map((a,i)=>`${i+1}. ${a}`).join('<br>');}
+};
+
+// ════════════════════════════════════
+// HIZLI ATEŞ
+// ════════════════════════════════════
+function buildYarisiHTML(){
+  const sorular=[
+    {s:'WLL nedir?',c:'Çalışma Yük Sınırı'},
+    {s:'Sarı sapan kaç ton?',c:'3 ton'},
+    {s:'60° açıda kapasite ne olur?',c:'Yarıya düşer'},
+    {s:'Yoyo düşme sonrası?',c:'İmha edilir'},
+    {s:'KKD açılımı?',c:'Kişisel Koruyucu Donanım'},
+    {s:'Zincir sapan standardı?',c:'EN 818'},
+    {s:'Emniyet kemeri standardı?',c:'EN 361'},
+    {s:'Kimyasal döküntüde ilk adım?',c:'Alanı terk et'},
+    {s:'Forklift fork yüksekliği?',c:'15-20 cm'},
+    {s:'Mor sapan kaç ton?',c:'1 ton'},
+    {s:'Kırmızı sapan kaç ton?',c:'5 ton'},
+    {s:'Yoyo düşmeyi kaç metrede durdurur?',c:'0.6 metre'},
+    {s:'Sınıf 10 mukavemeti?',c:'1000 N/mm²'},
+    {s:'Mavi sapan kaç ton?',c:'10 ton'},
+    {s:'Kask standardı?',c:'EN 397'},
+  ].sort(()=>Math.random()-.5);
+  window._yarisi={sorular,cur:0,score:0,sure:30,timer:null};
+
+  function startTimer(){
+    clearInterval(window._yarisi.timer);
+    window._yarisi.timer=setInterval(()=>{
+      window._yarisi.sure--;
+      const tel=document.getElementById('yarisi-sure');
+      if(tel){tel.textContent=window._yarisi.sure+'s';tel.style.color=window._yarisi.sure<=10?'var(--red)':'var(--txt)';}
+      if(window._yarisi.sure<=0){clearInterval(window._yarisi.timer);yarisieBit();}
+    },1000);
+  }
+
+  function soruHtml(){
+    const {sorular,cur,score}=window._yarisi;
+    if(cur>=sorular.length)return yarisieBitHtml();
+    const s=sorular[cur];
+    return `<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <div style="font-size:11px;color:var(--txt3);font-family:monospace">${cur+1}/${sorular.length} · ${score} pt</div>
+      <div style="font-size:20px;font-weight:700;color:var(--txt);font-family:monospace" id="yarisi-sure">${window._yarisi.sure}s</div>
+    </div>
+    <div class="qbox"><div class="qq">${s.s}</div>
+    <input type="text" id="yarisi-inp" placeholder="Cevabını yaz..." class="fi" style="margin-bottom:8px" onkeydown="if(event.key==='Enter')yarisiCevap()">
+    <button class="btn dk" style="margin-bottom:0" onclick="yarisiCevap()">Gönder →</button>
+    <div id="yarisi-res" class="qres"></div></div>`;
+  }
+  function yarisieBitHtml(){
+    clearInterval(window._yarisi.timer);
+    return `<div style="text-align:center;padding:20px"><div style="font-size:36px;margin-bottom:8px">🔥</div><div style="font-size:16px;font-weight:700;color:var(--txt)">Hızlı Ateş Bitti!</div><div style="font-size:14px;color:var(--txt3);margin:6px 0 16px">${window._yarisi.score} puan</div><button class="btn rd" style="margin-bottom:0" onclick="document.getElementById('om-body').innerHTML=buildYarisiHTML()">Tekrar</button></div>`;
+  }
+
+  window.yarisiCevap=function(){
+    const {sorular,cur}=window._yarisi;
+    if(cur>=sorular.length)return;
+    const inp=document.getElementById('yarisi-inp');if(!inp)return;
+    const cevap=inp.value.trim().toLowerCase();
+    const dogru=sorular[cur].c.toLowerCase();
+    const r=document.getElementById('yarisi-res');
+    const tamDogru=cevap===dogru||dogru.includes(cevap)||cevap.includes(dogru.split(' ')[0]);
+    if(tamDogru)window._yarisi.score+=3;
+    if(r){r.style.display='block';r.style.background=tamDogru?'#EAF3DE':'#FCEBEB';r.style.color=tamDogru?'#27500A':'#A32D2D';r.textContent=tamDogru?'✓ +3 puan!':'✗ Cevap: '+sorular[cur].c;}
+    inp.value='';
+    setTimeout(()=>{window._yarisi.cur++;const ob=document.getElementById('om-body');if(ob){ob.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><div style="font-size:11px;color:var(--txt3);font-family:monospace">'+(window._yarisi.cur+1)+'/'+sorular.length+' · '+window._yarisi.score+' pt</div><div style="font-size:20px;font-weight:700;font-family:monospace" id="yarisi-sure">'+window._yarisi.sure+'s</div></div><div class="qbox"><div class="qq">'+(window._yarisi.cur<sorular.length?sorular[window._yarisi.cur].s:'Tamamlandı!')+'</div>'+(window._yarisi.cur<sorular.length?'<input type="text" id="yarisi-inp" placeholder="Cevabını yaz..." class="fi" style="margin-bottom:8px" onkeydown="if(event.key===\'Enter\')yarisiCevap()"><button class="btn dk" style="margin-bottom:0" onclick="yarisiCevap()">Gönder →</button><div id="yarisi-res" class="qres"></div>':'<button class="btn rd" style="margin-bottom:0" onclick="document.getElementById(\'om-body\').innerHTML=buildYarisiHTML()">Tekrar</button>')+'</div>';}},600);
+  };
+
+  window.yarisieBit=function(){const ob=document.getElementById('om-body');if(ob)ob.innerHTML=yarisieBitHtml();};
+
+  setTimeout(()=>startTimer(),100);
+  return soruHtml();
+}
+function openOyunModal(title,html){document.getElementById('om-title').textContent=title;document.getElementById('om-body').innerHTML=html;document.getElementById('oyun-modal').classList.add('open');}
+function closeOyunModal(){if(window._yarisi&&window._yarisi.timer)clearInterval(window._yarisi.timer);if(window._samp&&window._samp.timer)clearInterval(window._samp.timer);document.getElementById('oyun-modal').classList.remove('open');}
+
+function buildEtanHTML(){
+  const sorular=[
+    {s:"Renk koduna göre hangi renk sentetik sapan 3 ton taşır?",opts:["Mor","Sarı","Gri","Kırmızı"],c:1},
+    {s:"Yoyo kaç metre içinde düşmeyi durdurur?",opts:["2 m","0.6 m","1.5 m","3 m"],c:1},
+    {s:"Emniyet kancasında dil ne işe yarar?",opts:["Renklendirme","WLL artırır","Elemandan çıkmayı önler","Estetik"],c:2},
+    {s:"Forklift yük taşırken fork hangi yükseklikte?",opts:["Maksimum","15-20 cm","Yere değiyor","Operatör tercihine bırakılır"],c:1},
+    {s:"Sınıf 10 zincir sapan Sınıf 8'den nasıl farklı?",opts:["Rengi farklı","Daha yüksek mukavemet, daha hafif","Daha ucuz","Aynı"],c:1},
+    {s:"Hasarlı sentetik sapanı anlamak için hangi test?",opts:["Tartılır","Islak bez testi","100 kg asılır","Renk solmuşsa yenisi alınır"],c:1},
+  ];
+  window._etan={sorular,cur:0,score:0,ans:false};
+  return buildEtanSoru();
+}
+function buildEtanSoru(){
+  const {sorular,cur,score}=window._etan;
+  if(cur>=sorular.length)return`<div style="text-align:center;padding:20px"><div style="font-size:32px;margin-bottom:8px">🎯</div><div style="font-size:16px;font-weight:700;color:var(--txt)">Bitti! ${score} puan</div><br><button class="btn rd" style="margin-bottom:0" onclick="document.getElementById('om-body').innerHTML=buildEtanHTML()">Tekrar</button></div>`;
+  const s=sorular[cur];
+  let html=`<div style="font-size:11px;color:var(--txt3);margin-bottom:8px;font-family:monospace">${cur+1}/${sorular.length} · ${score} puan</div><div class="qbox"><div class="qq">${s.s}</div><div class="qopts">`;
+  s.opts.forEach((o,i)=>{html+=`<button class="qo" onclick="etanCevap(${i})">${o}</button>`;});
+  html+=`</div><div id="etan-res" class="qres"></div></div>`;
+  window._etan.ans=false;return html;
+}
+window.etanCevap=function(i){
+  if(window._etan.ans)return;window._etan.ans=true;
+  const s=window._etan.sorular[window._etan.cur];
+  document.querySelectorAll('#om-body .qo').forEach((b,j)=>{b.disabled=true;if(j===s.c)b.classList.add('ok');});
+  if(i!==s.c)document.querySelectorAll('#om-body .qo')[i].classList.add('no');else window._etan.score+=15;
+  const r=document.getElementById('etan-res');r.style.display='block';r.style.background=i===s.c?'#EAF3DE':'#FCEBEB';r.style.color=i===s.c?'#27500A':'#A32D2D';r.textContent=i===s.c?'✓ Doğru! +15 puan':'✗ Yanlış.';
+  setTimeout(()=>{window._etan.cur++;document.getElementById('om-body').innerHTML=buildEtanSoru();},1600);
+};
+
+// DOĞRU/YANLIŞ
+function buildDYHTML(){
+  const ifadeler=[
+    {s:"Yoyo düşme sonrası görsel hasar yoksa tekrar kullanılabilir.",ok:false},
+    {s:"Sarı sentetik sapanın WLL değeri 3 tondur.",ok:true},
+    {s:"2 metre üzerinde emniyet kemeri zorunludur.",ok:true},
+    {s:"Hasarlı kanca onarılıp kullanılabilir.",ok:false},
+    {s:"60° açıda iki kollu sapanın kapasitesi yarıya düşer.",ok:true},
+    {s:"Kimyasal döküntüde ilk adım döküntüyü toplamaktır.",ok:false},
+    {s:"Sınıf 10 zincir sapan Sınıf 8'den daha hafif ve kapasitelidir.",ok:true},
+    {s:"Forklift yük taşırken fork maksimum yükseklikte tutulmalıdır.",ok:false},
+    {s:"Her kaldırma operasyonu öncesi sapan kontrol edilmelidir.",ok:true},
+    {s:"SDS olmadan kimyasal ile çalışılabilir.",ok:false},
+  ].sort(()=>Math.random()-.5);
+  window._dy={ifadeler,cur:0,score:0,streak:0};return buildDYSoru();
+}
+function buildDYSoru(){
+  const{ifadeler,cur,score,streak}=window._dy;
+  if(cur>=ifadeler.length)return`<div style="text-align:center;padding:20px"><div style="font-size:32px;margin-bottom:8px">⚡</div><div style="font-size:16px;font-weight:700;color:var(--txt)">Bitti! ${score} puan</div><br><button class="btn rd" style="margin-bottom:0" onclick="document.getElementById('om-body').innerHTML=buildDYHTML()">Tekrar</button></div>`;
+  const s=ifadeler[cur];
+  let html=`<div style="font-size:11px;color:var(--txt3);margin-bottom:8px;font-family:monospace">${cur+1}/${ifadeler.length} · ${score} pt${streak>=2?' · 🔥 Streak: '+streak:''}</div>`;
+  html+=`<div class="qbox" style="margin-bottom:10px"><div class="qq" style="margin-bottom:0">${s.s}</div></div>`;
+  html+=`<div class="g2"><button class="btn" style="background:#EAF3DE;color:#27500A;border-color:#97C459;margin-bottom:0;font-weight:600" onclick="dyCevap(true)">✓ DOĞRU</button><button class="btn" style="background:#FCEBEB;color:#A32D2D;border-color:#F09595;margin-bottom:0;font-weight:600" onclick="dyCevap(false)">✗ YANLIŞ</button></div>`;
+  html+=`<div id="dy-res" class="qres" style="margin-top:8px"></div>`;
+  return html;
+}
+window.dyCevap=function(cevap){
+  const s=window._dy.ifadeler[window._dy.cur];const dogru=cevap===s.ok;
+  if(dogru){window._dy.score+=5;window._dy.streak++;if(window._dy.streak%3===0)window._dy.score+=5;}else window._dy.streak=0;
+  const r=document.getElementById('dy-res');r.style.display='block';r.style.background=dogru?'#EAF3DE':'#FCEBEB';r.style.color=dogru?'#27500A':'#A32D2D';
+  r.textContent=dogru?'✓ Doğru!'+(window._dy.streak%3===0&&window._dy.streak>0?' 🔥 +5 Bonus!':''):'✗ Yanlış. Cevap: '+(s.ok?'DOĞRU':'YANLIŞ');
+  setTimeout(()=>{window._dy.cur++;document.getElementById('om-body').innerHTML=buildDYSoru();},1400);
+};
+
+// ŞAMPİYONA
+function buildSampHTML(){
+  const sorular=[
+    {q:"WLL ne anlama gelir?",opts:["Malzeme türü","Maksimum güvenli yük","Sapanın uzunluğu","Üretici kodu"],c:1},
+    {q:"SOCAR sahasında yüksekte çalışma sınırı?",opts:["1 m","2 m","3 m","5 m"],c:1},
+    {q:"Kimyasal döküntüde ilk adım?",opts:["Topla","Araştır","Alanı terk et — rüzgar altına geç","Herkes aynı"],c:2},
+    {q:"Sarı sentetik sapan kaç ton?",opts:["1 t","2 t","3 t","5 t"],c:2},
+    {q:"60° açıda kapasite nasıl değişir?",opts:["Değişmez","%25 azalır","%50'ye düşer","Artar"],c:2},
+    {q:"Yoyo düşme sonrası?",opts:["Temizlenip kullanılır","Muayene edilir","Anında imha","Tamir edilir"],c:2},
+    {q:"KKD ne demek?",opts:["Kaldırma Kontrol Değeri","Kişisel Koruyucu Donanım","Kimyasal Koruma","Kaza Kayıt Defteri"],c:1},
+    {q:"Vinç operasyonunda kaldırma planı ne zaman zorunlu?",opts:["Ağır yüklerde","Her kritik kaldırmada","Sadece gece","Sadece SOCAR'da"],c:1},
+    {q:"Emniyet kemeri standardı?",opts:["EN 360","EN 361","EN 397","EN 166"],c:1},
+    {q:"Forklift günlük kontrolde hangisi YOK?",opts:["Lastikler","Frenler","Sigorta belgesi","Akü seviyesi"],c:2},
+  ];
+  window._samp={sorular,cur:0,score:0,sure:25,timer:null,ans:false};return buildSampSoru();
+}
+function buildSampSoru(){
+  if(window._samp.timer)clearInterval(window._samp.timer);
+  const{sorular,cur,score}=window._samp;
+  if(cur>=sorular.length)return`<div style="text-align:center;padding:20px"><div style="font-size:32px;margin-bottom:8px">🏆</div><div style="font-size:16px;font-weight:700;color:var(--txt)">Şampiyona Bitti!</div><div style="font-size:14px;color:var(--txt3);margin:6px 0 16px">${score} puan · ${score>=80?'🥇 Mükemmel!':score>=50?'🥈 İyi!':'🥉 Geliştirebilirsin'}</div><button class="btn rd" style="margin-bottom:0" onclick="document.getElementById('om-body').innerHTML=buildSampHTML()">Tekrar</button></div>`;
+  const s=sorular[cur];
+  window._samp.sure=25;window._samp.ans=false;
+  window._samp.timer=setInterval(()=>{window._samp.sure--;const tel=document.getElementById('samp-timer');if(tel){tel.textContent=window._samp.sure;tel.style.color=window._samp.sure<=5?'var(--red)':'var(--txt)';}if(window._samp.sure<=0){clearInterval(window._samp.timer);if(!window._samp.ans){window._samp.ans=true;window._samp.cur++;document.getElementById('om-body').innerHTML=buildSampSoru();}}},1000);
+  let html=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><div style="font-size:11px;color:var(--txt3);font-family:monospace">Soru ${cur+1}/10 · ${score} pt</div><div style="font-size:22px;font-weight:700;color:var(--txt);font-family:monospace" id="samp-timer">25</div></div>`;
+  html+=`<div class="qbox"><div class="qq">${s.q}</div><div class="qopts">`;
+  s.opts.forEach((o,i)=>{html+=`<button class="qo" onclick="sampCevap(${i})">${o}</button>`;});
+  html+=`</div><div id="samp-res" class="qres"></div></div>`;return html;
+}
+window.sampCevap=function(i){
+  if(window._samp.ans)return;window._samp.ans=true;clearInterval(window._samp.timer);
+  const s=window._samp.sorular[window._samp.cur];
+  document.querySelectorAll('#om-body .qo').forEach((b,j)=>{b.disabled=true;if(j===s.c)b.classList.add('ok');});
+  if(i!==s.c)document.querySelectorAll('#om-body .qo')[i].classList.add('no');else window._samp.score+=10;
+  const r=document.getElementById('samp-res');r.style.display='block';r.style.background=i===s.c?'#EAF3DE':'#FCEBEB';r.style.color=i===s.c?'#27500A':'#A32D2D';r.textContent=i===s.c?'✓ Doğru! +10 puan':'✗ Yanlış.';
+  setTimeout(()=>{window._samp.cur++;document.getElementById('om-body').innerHTML=buildSampSoru();},1600);
+};
+
+// ════════════════════════════════════
+// ORYANTASyon
+// ════════════════════════════════════
+const ORY=[
+  {title:"Q.U.R.U TV'ye Hoş Geldin",sub:"Platforma giriş",dur:"2 dk",col:"#E8402A",metin:`Merhaba! Ben Q.U.R.U — HAREKET PROJE'nin dijital ISG asistanı. SOCAR sahasına hoş geldin.\n\nBu platform, güvenli çalışman için ihtiyaç duyduğun tüm bilgileri, eğitimleri ve araçları bir arada sunuyor.\n\nVideolar izleyeceksin, quizler çözeceksin, oyunlar oynayacaksın.\n\nKulaklıklarını tak — başlıyoruz.`,ses:"Merhaba! Ben Q.U.R.U, HAREKET PROJE'nin dijital İSG asistanı. SOCAR sahasına hoş geldin."},
+  {title:"SOCAR Sahası Temel Kuralları",sub:"5 temel kural",dur:"4 dk",col:"#1a3a6e",metin:`1. KKD zorunludur — kask, gözlük, bot, eldiven. İstisna yoktur.\n\n2. Çalışma izni sistemi — her iş öncesi izin belgesi alınır.\n\n3. Yüksekte çalışma — 2 metrenin üzerinde emniyet kemeri + yoyo zorunludur.\n\n4. Kimyasal yönetimi — Güvenlik Bilgi Forması okunmadan çalışılmaz.\n\n5. Olay bildirimi — her kaza ve ramak kala ISG birimine bildirilir.`,ses:"SOCAR sahasında beş temel kural: KKD zorunlu, çalışma izni şart, yüksekte emniyet kemeri, güvenlik bilgi forması okunmalı, her olay bildirilmeli."},
+  {title:"Kaldırma Operasyonlarında Güvenlik",sub:"WLL, açı faktörü, kontrol",dur:"5 dk",col:"#5a3200",metin:`Çalışma Yük Sınırı (WLL): Ekipmanın taşıyabileceği maksimum güvenli yük. Asla aşılmaz.\n\nAçı faktörü: 60 derecede kapasite yarıya düşer. Her operasyon öncesi hesapla.\n\nOperasyon öncesi kontrol: Hasarlı ekipman kullanılmaz — hizmet dışı bırakılır.\n\nKaldırma planı: Kritik kaldırmalar için yazılı plan zorunludur.`,ses:"Çalışma Yük Sınırı asla aşılmaz. Altmış derecede kapasite yarıya düşer. Her ekipman kullanım öncesi kontrol edilmeli."},
+  {title:"KKD Seçimi ve Doğru Kullanım",sub:"Standartlar ve ömür",dur:"4 dk",col:"#1a4a2e",metin:`Kask — EN 397: Darbe sonrası değiştirilir. 3–5 yıl ömrü.\n\nKoruyucu gözlük — EN 166: İş türüne göre seçilir.\n\nEmniyet botu — EN ISO 20345 S3: Sahamızın standardı.\n\nEldiven: İş riskine göre seçilir. Kimyasal için kimyasal dayanımlı.`,ses:"KKD son savunma hattı. Kask darbe sonrası değiştirilmeli. Emniyet botu S3 sınıfı sahamızın standardı."},
+  {title:"Acil Durum Prosedürleri",sub:"Kaza, yangın, kimyasal",dur:"4 dk",col:"#3a0a0a",metin:`Kaza / Yaralanma:\n→ Kendi güvenliğini sağla → 112'yi ara → ISG sorumlusunu bildir\n\nYangın:\n→ Alarmı çal → Tahliye planına göre hareket et → Toplanma noktasına git\n\nKimyasal Döküntü:\n→ Alanı terk et — rüzgar altına geç → KKD'yi giy → Güvenlik Bilgi Formuna bak`,ses:"Acil durumda önce kendi güvenliğini sağla. Kaza durumunda yüz iki'yi ara. Yangında alarmı çal ve toplanma noktasına git."},
+  {title:"Oryantasyon Tamamlandı",sub:"Sahaya hazırsın!",dur:"1 dk",col:"#1a4a2e",metin:`Tebrikler! Hızlandırılmış ISG oryantasyonunu tamamladın.\n\nKafanda soru olan her an Q.U.R.U TV'ye gel.\n\nUnutma: Güvenli çalışmak sadece kural değil, alışkanlıktır.\n\nSahaya başarılar!`,ses:"Tebrikler! Oryantasyonu tamamladın. Güvenli çalışmak alışkanlıktır. Sahaya başarılar!"}
+];
+let oryIdx=0,oryPlaying=false,oryIntvl=null;
+function renderOry(){
+  const dots=document.getElementById('ory-dots'),wrap=document.getElementById('ory-wrap');if(!dots||!wrap)return;
+  dots.innerHTML='';
+  ORY.forEach((_,i)=>{const d=document.createElement('div');d.className='ory-dot'+(i<oryIdx?' done':i===oryIdx?' active':'');dots.appendChild(d);});
+  const s=ORY[oryIdx];
+  wrap.innerHTML=`<div class="ory-step"><div class="ory-hd"><div class="ory-num" style="background:${s.col}">${oryIdx+1}</div><div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--txt)">${s.title}</div><div style="font-size:11px;color:var(--txt3);margin-top:1px">${s.sub}</div></div><div style="font-size:11px;color:var(--txt3)">${s.dur}</div></div><div class="ory-body"><div class="ory-player"><div class="ory-play-row"><button class="ory-play-btn" onclick="oryToggle()"><svg width="12" height="12" viewBox="0 0 12 12"><path id="ory-icon" d="M3 2L10 6L3 10Z" fill="white"/></svg></button><div style="color:#fff;font-size:12px;font-weight:500;flex:1">${s.title} — Q.U.R.U anlatıyor</div></div><div class="ory-prog"><div class="ory-prog-bar" id="ory-bar" style="width:0%"></div></div><div class="ory-time"><span id="ory-el">0:00</span><span>${s.dur}</span></div></div><div class="ory-metin">${s.metin}</div><div style="margin-top:12px;display:flex;gap:7px">${oryIdx>0?'<button class="btn sm" onclick="oryNav(-1)">← Önceki</button>':''}${oryIdx<ORY.length-1?'<button class="btn dk sm" onclick="oryNav(1)">Sonraki →</button>':'<button class="btn rd sm" onclick="go(\'quiz\')">Quize Geç 🎉</button>'}</div></div></div>`;
+  oryPlaying=false;
+}
+function oryToggle(){
+  oryPlaying=!oryPlaying;const icon=document.getElementById('ory-icon');
+  if(oryPlaying){
+    if(icon)icon.setAttribute('d','M3 2H5V10H3ZM7 2H9V10H7Z');
+    let p=0;const tot=120;
+    oryIntvl=setInterval(()=>{p++;const pct=Math.min((p/tot)*100,100);const bar=document.getElementById('ory-bar');const el=document.getElementById('ory-el');if(bar)bar.style.width=pct+'%';if(el){const sec=Math.floor((p/tot)*120);el.textContent=Math.floor(sec/60)+':'+(sec%60<10?'0':'')+sec%60;}if(p>=tot){clearInterval(oryIntvl);oryPlaying=false;if(icon)icon.setAttribute('d','M3 2L10 6L3 10Z');}},50);
+    try{const u=new SpeechSynthesisUtterance(ORY[oryIdx].ses);u.lang='tr-TR';u.rate=.95;window.speechSynthesis.cancel();window.speechSynthesis.speak(u);}catch(e){}
+  }else{clearInterval(oryIntvl);if(icon)icon.setAttribute('d','M3 2L10 6L3 10Z');try{window.speechSynthesis.cancel();}catch(e){}}
+}
+function oryNav(dir){clearInterval(oryIntvl);oryPlaying=false;try{window.speechSynthesis.cancel();}catch(e){}oryIdx=Math.max(0,Math.min(ORY.length-1,oryIdx+dir));renderOry();}
+
+// ════════════════════════════════════
+// QUİZ
+// ════════════════════════════════════
+const QD=[
+  {q:"Çalışma Yük Sınırı (WLL) ne anlama gelir?",opts:["Sapanın malzeme türü","Ekipmanın güvenle taşıyabileceği maksimum yük","Sapanın uzunluğu","Üretici kodu"],c:1,exp:"WLL ekipmanın güvenle taşıyabileceği maksimum yüktür."},
+  {q:"Sarı sentetik sapan kaç ton WLL taşır?",opts:["1 ton","2 ton","3 ton","5 ton"],c:2,exp:"Sarı = 3 ton. Mor=1t, Yeşil=2t, Sarı=3t, Gri=4t, Kırmızı=5t."},
+  {q:"İki kollu sapanda 60° açıda kapasite ne olur?",opts:["Değişmez","%25 azalır","%50'ye düşer","İki katına çıkar"],c:2,exp:"60 derecede açı faktörü 0.5 — kapasite yarıya düşer."},
+  {q:"Yoyo düşme sonrası ne yapılmalıdır?",opts:["Temizlenip kullanılır","Sadece muayene edilir","Anında imha edilir","Onay alınırsa kullanılır"],c:2,exp:"Düşme durduran yoyo iç mekanizması hasar görmüştür — imha."},
+  {q:"SOCAR sahasında yüksekte çalışmada ne zorunludur?",opts:["Sadece kask","Kask + kemer","Tam vücut emniyet kemeri + yoyo + bağlantı noktası onayı","Kemer yeterlidir"],c:2,exp:"2 metre üzeri her çalışmada tam vücut emniyet kemeri + yoyo zorunlu."},
+  {q:"Kimyasal döküntüde ilk adım?",opts:["Döküntüyü topla","İnternetten araştır","Alanı terk et — rüzgar altına geç — KKD giy","Herkese aynı işlem"],c:2,exp:"Önce kişisel güvenlik: alanı terk et, rüzgar altına geç."},
+  {q:"Sınıf 10 zincir sapan Sınıf 8'den nasıl farklı?",opts:["Rengi farklı","Daha yüksek mukavemet, daha hafif","Daha ucuz","Aynı"],c:1,exp:"Sınıf 10: 1000 N/mm². Sınıf 8: 800 N/mm². Daha ince ve hafif."},
+  {q:"Kancada emniyet dili ne işe yarar?",opts:["Renklendirme","Kancayı elemandan çıkmasını önler","WLL artırır","Estetik"],c:1,exp:"Emniyet dili kancayı bağlı elemandan çıkmasını önler."},
+  {q:"Forklift yük taşırken fork hangi konumda?",opts:["Maksimum yükseklikte","15–20 cm yukarıda, mast geriye eğimli","Yere değiyor","Operatörün tercihine bırakılır"],c:1,exp:"Taşıma sırasında fork 15–20 cm yukarıda, mast geriye eğimli."},
+  {q:"Hasarlı sentetik sapanı tanımak için hangi test?",opts:["Tartılır","Islak bez testi — elyaf çözülüyorsa imha","100 kg asılır","Renk solmuşsa yenisi alınır"],c:1,exp:"Islak bez testi: elyaf çözülüyorsa kimyasal hasar var — imha et."}
+];
+let cQ=0,qScore=0,qAns=false;
+function renderQ(){
+  if(cQ>=QD.length){document.getElementById('qq').textContent='Quiz tamamlandı!';document.getElementById('qopts').innerHTML=`<div style="text-align:center;padding:10px 0;font-size:18px;font-weight:700;font-family:monospace">${qScore} puan 🎉</div><button class="btn rd" onclick="go('quiz')">Tekrar Oyna</button>`;document.getElementById('qbar').style.width='100%';return;}
+  const d=QD[cQ];
+  document.getElementById('qq').textContent=d.q;document.getElementById('qtxt').textContent=(cQ+1)+'/'+QD.length;
+  document.getElementById('qbar').style.width=((cQ/QD.length)*100)+'%';document.getElementById('qscore').textContent=qScore+' puan';
+  document.getElementById('qres').style.display='none';
+  const o=document.getElementById('qopts');o.innerHTML='';
+  d.opts.forEach((opt,i)=>{const b=document.createElement('button');b.className='qo';b.textContent=opt;b.onclick=()=>pickQ(i,d.c,d.exp,b);o.appendChild(b);});
+  qAns=false;
+}
+function pickQ(i,c,exp,btn){
+  if(qAns)return;qAns=true;
+  document.querySelectorAll('.qo').forEach((b,j)=>{b.disabled=true;if(j===c)b.classList.add('ok');});
+  if(i!==c)btn.classList.add('no');else qScore+=10;
+  const r=document.getElementById('qres');r.style.display='block';r.style.background=i===c?'#EAF3DE':'#FCEBEB';r.style.color=i===c?'#27500A':'#A32D2D';r.textContent=(i===c?'✓ Doğru! ':'✗ Yanlış. ')+exp;
+  document.getElementById('qscore').textContent=qScore+' puan';
+  setTimeout(()=>{cQ++;renderQ();},2000);
+}
+
+// ════════════════════════════════════
+// SENARYO
+// ════════════════════════════════════
+const SN=[
+  {title:"07:30 — Operasyon hazırlığı",bg:"#1a2a1a",desc:"5 tonluk boru demeti kaldırılacak. Elinde sarı sentetik sapan var.",q:"İlk adımda ne yaparsın?",opts:[{t:"Sapanı vincin kancasına bağla — saat daralıyor.",ok:false,exp:"Zaman baskısı güvenliği geçemez."},{t:"Sarı sapanın WLL'ini kontrol et (3 ton). Yük 5 ton — yetersiz. Doğru sapanı al.",ok:true,exp:"Doğru! Sarı = 3 ton WLL, yük = 5 ton. Bu sapanla operasyon başlatılmaz."},{t:"Ustabaşına sor.",ok:false,exp:"Her operatör kendi sorumluluğunu bilmeli."}]},
+  {title:"07:50 — Doğru ekipman seçildi",bg:"#1a1a2e",desc:"10 ton WLL Sınıf 8 zincir sapan. İki kollu bağlama, açı 60° olacak.",q:"Bu konfigürasyonla güvenle kaldırabilir misin?",opts:[{t:"Evet, 10 ton WLL var — rahat.",ok:false,exp:"60 derecede açı faktörü 0.5 — efektif kapasite 5 tona düşer."},{t:"Hayır. 60 derecede kapasite yarıya düşer. Açıyı azalt veya kapasiteli sapan al.",ok:true,exp:"Doğru! Açıyı 30–45 dereceye düşür."},{t:"Açı faktörü teorik, pratikte fark yaratmaz.",ok:false,exp:"Açı faktörü hayat kurtaran bir hesaptır."}]},
+  {title:"08:10 — Kaldırma komutu",bg:"#2e1a00",desc:"Doğru ekipman, doğru açı. Etrafta 4 personel çalışıyor.",q:"Kaldırma komutunu vermeden önce ne yapmalısın?",opts:[{t:"Herkese sesle uyar.",ok:false,exp:"Sesli uyarı yetmez. Resmi güvenlik çevresi zorunludur."},{t:"Güvenlik çevresi kur, personeli uzağa çek, sinyalciyle iletişimi onayla.",ok:true,exp:"Doğru! Güvenlik çevresi ve iletişim onayı olmadan kaldırma komutu verilmez."},{t:"Hızlıca kaldır.",ok:false,exp:"Bu düşünce yılda onlarca ölümcül kazanın sebebidir."}]},
+  {title:"22:00 — Gece acil operasyonu",bg:"#0a0a1a",desc:"Arıza nedeniyle gece acil kaldırma. Hava rüzgarlı.",q:"Ek olarak ne yapmalısın?",opts:[{t:"Normal prosedür yeterli.",ok:false,exp:"Gece operasyonlarında ek riskler var."},{t:"Yeterli aydınlatma, sinyalci sayısını artır, rüzgar hızını ölç — limit aşıldıysa ertele.",ok:true,exp:"Doğru! Gece: min 50 lux, 2+ sinyalci, rüzgar kontrolü."},{t:"Sadece ışıkları aç.",ok:false,exp:"Rüzgar kontrolü ve ek sinyalci de gerekli."}]}
+];
+let cSN=0,snScore=0,snAns=false;
+function renderSN(){
+  const w=document.getElementById('sn-wrap');
+  if(cSN>=SN.length){w.innerHTML=`<div style="text-align:center;padding:24px 0"><div style="font-size:40px;margin-bottom:10px">🏆</div><div style="font-size:17px;font-weight:700;margin-bottom:6px;color:var(--txt)">Senaryo Tamamlandı!</div><div style="font-size:13px;color:var(--txt3);margin-bottom:16px">Toplam: <strong style="font-family:monospace">${snScore} puan</strong></div><button class="btn rd" onclick="go('senaryo')">Tekrar Oyna</button></div>`;return;}
+  const s=SN[cSN];document.getElementById('sn-score').textContent=snScore+' puan';
+  w.innerHTML=`<div class="qbox"><div style="font-size:11px;font-weight:600;color:var(--txt3);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">${s.title}</div><div style="height:78px;border-radius:10px;background:${s.bg};display:flex;align-items:center;justify-content:center;margin-bottom:10px;font-size:12px;color:rgba(255,255,255,.85);text-align:center;padding:0 14px;line-height:1.5">${s.desc}</div><div class="qq">${s.q}</div>${s.opts.map((o,i)=>`<button class="sno" onclick="pickSN(${i})">${o.t}</button>`).join('')}<div id="sn-res" class="sn-res"></div></div>`;
+  snAns=false;
+}
+function pickSN(i){
+  if(snAns)return;snAns=true;const s=SN[cSN];
+  document.querySelectorAll('.sno').forEach((b,j)=>{b.disabled=true;if(s.opts[j].ok)b.classList.add('ok');});
+  if(!s.opts[i].ok)document.querySelectorAll('.sno')[i].classList.add('no');else snScore+=25;
+  document.getElementById('sn-score').textContent=snScore+' puan';
+  const r=document.getElementById('sn-res');r.style.display='block';r.style.background=s.opts[i].ok?'#EAF3DE':'#FCEBEB';r.style.color=s.opts[i].ok?'#27500A':'#A32D2D';
+  r.innerHTML=(s.opts[i].ok?'<strong>Doğru karar!</strong> ':'<strong>Yanlış karar.</strong> ')+s.opts[i].exp;
+  const qf=document.createElement('div');qf.className='quru-bbl';
+  qf.innerHTML=`<div class="quru-face"><svg width="18" height="18" viewBox="0 0 32 32"><circle cx="16" cy="18" r="9" fill="#d4845a" stroke="#2c2c2a" stroke-width="1.2"/><ellipse cx="16" cy="10" rx="10" ry="6" fill="#e8402a" stroke="#2c2c2a" stroke-width="1.2"/><rect x="7" y="9" width="18" height="3" rx="1.5" fill="#c0321a" stroke="#2c2c2a" stroke-width=".8"/><circle cx="12.5" cy="19" r="1.2" fill="#2c2c2a"/><circle cx="19.5" cy="19" r="1.2" fill="#2c2c2a"/><path d="M13 22.5 Q16 24.5 19 22.5" stroke="#2c2c2a" stroke-width="1" fill="none" stroke-linecap="round"/></svg></div><div class="quru-txt">Q.U.R.U: ${s.opts[i].exp}</div>`;
+  r.appendChild(qf);setTimeout(()=>{cSN++;renderSN();},2800);
+}
+
+// ════════════════════════════════════
+// TABU
+// ════════════════════════════════════
+const TABU=[
+  {k:"Çalışma Yük Sınırı",y:["WLL","Working","Load","kapasite","ton"]},
+  {k:"Sapan",y:["bağlamak","halat","zincir","ip","kaldırma"]},
+  {k:"Yoyo",y:["düşme","emniyet","kilitleme","ip","cihaz"]},
+  {k:"Baret",y:["başlık","kask","koruyucu","sert","şapka"]},
+  {k:"Kanca",y:["çengel","bağ","asma","metal","dil"]},
+  {k:"İstif Makinesi",y:["araç","çatal","depo","kaldır","taşı"]},
+  {k:"Risk Değerlendirmesi",y:["tehlike","analiz","form","ihtimal","belge"]},
+  {k:"Açı Faktörü",y:["açı","derece","oran","hesap","kapasite"]},
+  {k:"Kişisel Koruyucu Donanım",y:["kask","eldiven","gözlük","ekipman","giysi"]},
+  {k:"Güvenlik Bilgi Forması",y:["MSDS","SDS","kimyasal","belge","bilgi"]},
+  {k:"Güvenlik Çevresi",y:["alan","mesafe","kordonu","uzak","çevre"]},
+  {k:"Tam Vücut Emniyet Kemeri",y:["kemer","vücut","bağ","tutar","düşme"]},
+  {k:"Periyodik Muayene",y:["kontrol","düzenli","yıllık","test","bakım"]},
+  {k:"Çalışma İzni",y:["izin","belge","onay","imza","form"]},
+  {k:"Toplanma Noktası",y:["acil","alan","yer","toplantı","tahliye"]},
+];
+let tIdx=0,tPuan=0,tDogru=0,tTimer=null,tSure=60,tKartlar=[];
+function tabuStart(){
+  document.getElementById('tabu-intro').style.display='none';document.getElementById('tabu-end').style.display='none';document.getElementById('tabu-game').style.display='block';
+  tIdx=0;tPuan=0;tDogru=0;tKartlar=[...TABU].sort(()=>Math.random()-.5);tabuGoster();tabuSayac();
+}
+function tabuGoster(){
+  if(tIdx>=tKartlar.length){tabuBit();return;}const k=tKartlar[tIdx];
+  document.getElementById('tabu-kelime').textContent=k.k;document.getElementById('tabu-yasak').innerHTML=k.y.map(w=>`<div class="tabu-yw">${w}</div>`).join('');
+  document.getElementById('tabu-skor').textContent=tDogru+' / '+tKartlar.length;document.getElementById('tabu-kalan').textContent=tKartlar.length-tIdx;document.getElementById('tabu-pts').textContent=tPuan+' puan';
+}
+function tabuSayac(){
+  clearInterval(tTimer);tSure=60;const el=document.getElementById('tabu-timer');if(el){el.textContent=60;el.classList.remove('red');}
+  tTimer=setInterval(()=>{tSure--;const e=document.getElementById('tabu-timer');if(e){e.textContent=tSure;if(tSure<=10)e.classList.add('red');}if(tSure<=0){clearInterval(tTimer);tabuBit();}},1000);
+}
+function tabuAct(tip){if(tip==='d'){tPuan+=20;tDogru++;}else if(tip==='y')tPuan=Math.max(0,tPuan-10);tIdx++;tabuGoster();}
+function tabuBit(){clearInterval(tTimer);document.getElementById('tabu-game').style.display='none';document.getElementById('tabu-end').style.display='block';document.getElementById('tabu-final').textContent=tPuan;document.getElementById('tabu-pts').textContent=tPuan+' puan';}
+
+// ════════════════════════════════════
+// ISG KÜTÜPHANESİ
+// ════════════════════════════════════
+const KUTUPHANE_DEF = [
+  {baslik:'Vinç Sapanlama Prosedürü',kat:'Kaldırma Operasyonları',url:'https://www.ilo.org/wcmsp5/groups/public/---ed_protect/---protrav/---safework/documents/normativeinstrument/wcms_112462.pdf',ikon:'⛓️'},
+  {baslik:'Kimyasal MSDS / SDS Formları',kat:'Kimyasal Güvenlik',url:'https://www.reach.gov.tr/',ikon:'🧪'},
+  {baslik:'Acil Durum Eylem Planı',kat:'Acil Durum',url:'https://www.csgb.gov.tr/',ikon:'🚨'},
+  {baslik:'KKD Seçim Kılavuzu',kat:'KKD',url:'https://www.isguvenligi.net/',ikon:'⛑️'},
+  {baslik:'Yüksekte Çalışma Prosedürü',kat:'KKD',url:'https://www.csgb.gov.tr/',ikon:'🪜'},
+  {baslik:'Forklift Operatör El Kitabı',kat:'Kaldırma Operasyonları',url:'https://www.isguvenligi.net/',ikon:'🚛'},
+];
+let kutuphaneDok = lsGet('kutuphane',[...KUTUPHANE_DEF.map((d,i)=>({...d,id:i+1}))]);
+
+function qrUrl(url){
+  // Google Charts QR API — ücretsiz, 150x150px
+  return `https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=${encodeURIComponent(url)}&bgcolor=ffffff&color=1a1a2e&margin=4`;
+}
+
+function renderKutuphane(){
+  const el=document.getElementById('kutuphane-list');if(!el)return;
+  const katlar=[...new Set(kutuphaneDok.map(d=>d.kat))];
+  let html='';
+  katlar.forEach(kat=>{
+    const docs=kutuphaneDok.filter(d=>d.kat===kat);
+    html+=`<div class="lbl">${kat}</div>`;
+    docs.forEach(d=>{
+      html+=`<div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;border:.5px solid var(--border);background:var(--card);margin-bottom:7px">
+        <div style="width:44px;height:44px;border-radius:10px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">${d.ikon}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:13px;font-weight:600;color:var(--txt);margin-bottom:2px">${d.baslik}</div>
+          <div style="font-size:10px;color:var(--txt3)">${d.kat}</div>
+        </div>
+        <div style="text-align:center;flex-shrink:0">
+          <img src="${qrUrl(d.url)}" width="60" height="60" style="border-radius:6px;display:block" loading="lazy" onerror="this.style.display='none'">
+          <div style="font-size:9px;color:var(--txt3);margin-top:2px">QR</div>
+        </div>
+        <a href="${d.url}" target="_blank" style="background:var(--navy);color:#fff;font-size:11px;padding:5px 10px;border-radius:8px;text-decoration:none;white-space:nowrap;flex-shrink:0">Aç →</a>
+        ${d.id>KUTUPHANE_DEF.length?`<button class="del-btn" onclick="dokSil(${d.id})">Sil</button>`:''}
+      </div>`;
+    });
+  });
+  el.innerHTML=html;
+}
+
+function dokEkle(){
+  const b=document.getElementById('dok-baslik').value.trim();
+  const u=document.getElementById('dok-url').value.trim();
+  const k=document.getElementById('dok-kat').value;
+  if(!b||!u){alert('Başlık ve URL gereklidir.');return;}
+  const IKON_MAP={'Kaldırma Operasyonları':'⛓️','Kimyasal Güvenlik':'🧪','Acil Durum':'🚨','KKD':'⛑️','Diğer':'📄'};
+  kutuphaneDok.push({baslik:b,kat:k,url:u,ikon:IKON_MAP[k]||'📄',id:Date.now()});
+  lsSet('kutuphane',kutuphaneDok);
+  document.getElementById('dok-baslik').value='';document.getElementById('dok-url').value='';
+  showOk('dok-ok');renderKutuphane();
+}
+function dokSil(id){kutuphaneDok=kutuphaneDok.filter(d=>d.id!==id);lsSet('kutuphane',kutuphaneDok);renderKutuphane();}
+
+// ════════════════════════════════════
+// AÇI ANALİZİ
+// ════════════════════════════════════
+function aciHesapla(){
+  const el=document.getElementById('aci-range');if(!el)return;
+  const aci=parseInt(el.value);
+  const rad=aci*Math.PI/180;
+  const faktor=Math.max(0,Math.cos(rad/2));
+  document.getElementById('aci-derece').textContent=aci+'°';
+  document.getElementById('aci-faktor').textContent='Açı Faktörü: '+faktor.toFixed(2);
+  const dur=document.getElementById('aci-durum');
+  if(aci<=30){dur.textContent='✅ Güvenli — Tam Kapasite';dur.style.color='#27500A';}
+  else if(aci<=45){dur.textContent='⚠️ Dikkat — Kapasite Azalıyor';dur.style.color='#BA7517';}
+  else if(aci<=60){dur.textContent='❌ Tehlike — %50 Kapasite Kaybı!';dur.style.color='#E8402A';}
+  else{dur.textContent='🚫 KRİTİK — Kullanma!';dur.style.color='#E8402A';}
+  const wllEl=document.getElementById('aci-wll');
+  const sonuc=document.getElementById('aci-sonuc');
+  if(wllEl&&wllEl.value&&sonuc){
+    const wll=parseFloat(wllEl.value);
+    if(!isNaN(wll)&&wll>0){
+      const eff=(wll*faktor).toFixed(2);
+      sonuc.textContent=`Efektif kapasite: ${eff} ton`;
+      sonuc.style.color=aci>60?'#E8402A':aci>45?'#BA7517':'#27500A';
+    }
+  }
+}
+
+// ════════════════════════════════════
+// INIT
+// ════════════════════════════════════
+window.addEventListener('load',()=>{
+  // Karanlık mod
+  if(lsGet('darkMode',false)){document.body.classList.add('dark');const btn=document.querySelector('.dark-btn');if(btn)btn.textContent='☀️';}
+  // Söz
+  document.querySelectorAll('.soz-txt,#ana-soz,#soz-disp').forEach(el=>{if(el)el.textContent=sozTxt;});
+  // Duyurular
+  renderDuyurular();
+  if(duyurular.length>0){
+    const d=duyurular[0];
+    const bc=d.o==='acil'?'var(--red)':d.o==='onemli'?'#BA7517':'#378ADD';
+    const bg=d.o==='acil'?'#FCEBEB':d.o==='onemli'?'#FAEEDA':'var(--bg3)';
+    const tc=d.o==='acil'?'#A32D2D':d.o==='onemli'?'#633806':'var(--txt)';
+    const ad=document.getElementById('ana-duyuru');
+    if(ad)ad.innerHTML=`<div style="background:${bg};border-radius:10px;padding:10px 13px;font-size:12px;color:${tc};line-height:1.65;border-left:3px solid ${bc}"><div style="font-size:10px;color:var(--txt3);margin-bottom:4px;font-family:monospace">${d.tarih} ${d.zaman}</div>${d.m}</div>`;
+  }
+  // Video sayacı
+  const av=allVids();const vcn=document.getElementById('vc-n');
+  if(vcn){let n=0;const t=setInterval(()=>{n=Math.min(n+1,av.length);vcn.textContent=n;if(n>=av.length)clearInterval(t);},55);}
+  // Billboard
+  bbRender();bbRenderListe();
+  // Diğer render'lar
+  renderLB();renderArchive();renderGames();renderTakvim();
+  // Tarih input için bugünü default ayarla
+  const today=new Date().toISOString().split('T')[0];
+  const takTarih=document.getElementById('tak-tarih');if(takTarih)takTarih.value=today;
+});
+</script>
+</body>
+</html>
